@@ -508,7 +508,7 @@ class KimiNarrativeComposer:
             tools=[NARRATIVE_TOOL],
             tool_choice="auto",
             temperature=0.6,
-            max_tokens=4000,
+            max_tokens=8000,  # Increased for 2000+ word narratives
         )
 
         payload = _extract_tool_payload(response)
