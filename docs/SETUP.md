@@ -12,6 +12,7 @@
 3. **Add to `.env` file** (in project root):
    ```
    MOONSHOT_API_KEY=sk-your-key-here
+   KIMI_ENABLE_THINKING=heavy  # Optional: "heavy" for max reasoning, "medium", "light", or "true"/"false"
    ```
 
 4. **Test the integration**:
@@ -24,9 +25,9 @@
 All configuration is in `KimiK2Thinking/config.py` or via environment variables:
 
 - `MOONSHOT_API_KEY`: Your Moonshot AI API key (required)
-- `KIMI_MODEL`: Model name (default: "moonshot-v1-8k")
+- `KIMI_MODEL`: Kimi K2 model name (default: "kimi-k2-0905-preview")
 - `KIMI_USE_TOOLS`: Enable tool calling (default: "true")
-- `KIMI_ENABLE_THINKING`: Enable thinking mode (default: "true")
+- `KIMI_ENABLE_THINKING`: Thinking mode - "heavy" (max reasoning), "medium", "light", or "true"/"false" (default: "true")
 
 ## How It Works
 
@@ -61,14 +62,15 @@ MOONSHOT_API_KEY=your_key_here
 ```
 
 ### Model Not Found
-Check the Moonshot AI documentation for the correct model name. Common options:
-- `moonshot-v1-8k`
-- `moonshot-v1-32k`
-- `moonshot-v1-128k`
+Check the Moonshot AI documentation for the correct Kimi K2 model name:
+- `kimi-k2-0905-preview` (recommended)
+- `kimi-k2` (or other Kimi K2 variants)
+
+See: https://platform.moonshot.ai/docs/guide/kimi-k2-quickstart#powerful-agent-building-capabilities
 
 Update in `.env`:
 ```
-KIMI_MODEL=moonshot-v1-8k
+KIMI_MODEL=kimi-k2-0905-preview
 ```
 
 ## Next Steps

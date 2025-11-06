@@ -58,7 +58,7 @@ async def test_prerequisite_explorer():
 
     explorer = KimiPrerequisiteExplorer(max_depth=2, use_tools=False)
 
-    concept = "special relativity"
+    concept = "pythagorean theorem"
     print(f"\nExploring prerequisites for: {concept}")
     print("-" * 70)
 

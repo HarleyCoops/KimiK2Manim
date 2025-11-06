@@ -21,6 +21,7 @@ try:
         KIMI_K2_MODEL,
         MOONSHOT_API_KEY,
         MOONSHOT_BASE_URL,
+        THINKING_MODE,
     )
 except ImportError:
     from config import (
@@ -30,6 +31,7 @@ except ImportError:
         KIMI_K2_MODEL,
         MOONSHOT_API_KEY,
         MOONSHOT_BASE_URL,
+        THINKING_MODE,
     )
 
 
@@ -119,6 +121,12 @@ class KimiClient:
             "stream": stream,
             **kwargs
         }
+        
+        # Add thinking mode if configured
+        # Note: Moonshot AI may require thinking_mode in extra_headers or as a different parameter
+        # For now, we'll pass it via kwargs if explicitly provided, but won't auto-add from config
+        # to avoid breaking the OpenAI client compatibility
+        # TODO: Verify correct way to pass thinking_mode to Moonshot API
 
         # Add tools if provided
         if tools:

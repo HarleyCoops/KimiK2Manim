@@ -11,10 +11,10 @@ MOONSHOT_API_KEY = os.getenv("MOONSHOT_API_KEY")
 MOONSHOT_BASE_URL = "https://api.moonshot.ai/v1"
 
 # Model Configuration
-# Note: Check Moonshot AI documentation for exact model names
-# Common options: "moonshot-v1-8k", "moonshot-v1-32k", "moonshot-v1-128k"
-# For Kimi K2 thinking model, verify the exact model identifier in the API docs
-KIMI_K2_MODEL = os.getenv("KIMI_MODEL", "moonshot-v1-8k")  # Default model
+# Note: Kimi K2 model names - check Moonshot AI documentation for exact identifiers
+# Kimi K2 models: "kimi-k2-0905-preview", "kimi-k2", etc.
+# See: https://platform.moonshot.ai/docs/guide/kimi-k2-quickstart#powerful-agent-building-capabilities
+KIMI_K2_MODEL = os.getenv("KIMI_MODEL", "kimi-k2-0905-preview")  # Default model
 
 # Default settings
 DEFAULT_MAX_TOKENS = 4000
@@ -26,7 +26,12 @@ USE_TOOLS = os.getenv("KIMI_USE_TOOLS", "true").lower() == "true"
 TOOLS_ENABLED = USE_TOOLS  # Can be overridden per agent
 
 # Thinking Mode Configuration
-ENABLE_THINKING = os.getenv("KIMI_ENABLE_THINKING", "true").lower() == "true"
+# Supports: "heavy", "medium", "light", or boolean values ("true"/"false")
+# When set to "heavy", enables maximum reasoning effort
+# When set to boolean, "true" enables default thinking mode, "false" disables it
+THINKING_MODE = os.getenv("KIMI_ENABLE_THINKING", "true")
+# For backward compatibility, also provide boolean flag
+ENABLE_THINKING = THINKING_MODE.lower() not in ("false", "none", "off", "0")
 
 # Fallback to verbose instructions if tools not available
 FALLBACK_TO_VERBOSE = True

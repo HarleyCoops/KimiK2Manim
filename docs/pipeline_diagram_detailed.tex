@@ -1,0 +1,165 @@
+\documentclass[tikz,border=10pt]{standalone}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning,fit,backgrounds,decorations.pathreplacing,calc}
+
+\begin{document}
+\begin{tikzpicture}[
+    % Node styles
+    agent/.style={rectangle, rounded corners, minimum width=4cm, minimum height=2cm, 
+                  text centered, draw=black, fill=blue!25, font=\small\bfseries, align=center},
+    data/.style={rectangle, rounded corners, minimum width=4.5cm, minimum height=2.5cm,
+                 text centered, draw=black, fill=green!20, font=\tiny, align=left},
+    output/.style={rectangle, rounded corners, minimum width=5cm, minimum height=3cm,
+                   text centered, draw=black, fill=orange!25, font=\small, align=left},
+    arrow/.style={->, >=stealth, thick, color=black},
+    label/.style={font=\tiny, color=darkgray, align=center}
+]
+
+% Input
+\node[agent, fill=purple!25] (input) at (0,8) {
+    \textbf{User Prompt}\\
+    \textit{"explain pythagorean theorem"}
+};
+
+% Stage 1: Prerequisite Explorer
+\node[agent, fill=blue!30] (explorer) at (0,6) {
+    \textbf{1. KimiPrerequisiteExplorer}\\
+    \textit{Recursively builds knowledge tree}
+};
+
+% Tree structure output
+\node[data, fill=green!15] (tree1) at (-4,4) {
+    \textbf{KnowledgeNode Tree}\\
+    \vspace{0.1cm}
+    \textit{Structure:}\\
+    • concept: "pythagorean theorem"\\
+    • depth: 0\\
+    • is\_foundation: true\\
+    • prerequisites: []\\
+    \vspace{0.1cm}
+    \textit{Recursive: explores prerequisites}
+};
+
+% Stage 2: Mathematical Enricher
+\node[agent, fill=green!30] (math) at (-4,1.5) {
+    \textbf{2. KimiMathematicalEnricher}\\
+    \textit{Enriches each node with math}
+};
+
+% Math-enriched tree
+\node[data, fill=green!20] (tree2) at (-4,-1) {
+    \textbf{Math-Enriched Tree}\\
+    \vspace{0.1cm}
+    \textit{Added to each node:}\\
+    • equations: ["a²+b²=c²", ...]\\
+    • definitions: \{a: "...", b: "..."\}\\
+    • interpretation: "..."\\
+    • examples: ["3-4-5 triangle", ...]\\
+    • typical\_values: \{"3-4-5": "..."\}
+};
+
+% Stage 3: Visual Designer
+\node[agent, fill=yellow!30] (visual) at (0,1.5) {
+    \textbf{3. KimiVisualDesigner}\\
+    \textit{Designs visual specifications}
+};
+
+% Visual-enriched tree
+\node[data, fill=yellow!20] (tree3) at (0,-1) {
+    \textbf{Visual-Enriched Tree}\\
+    \vspace{0.1cm}
+    \textit{Added visual\_spec:}\\
+    • visual\_description: "right triangle..."\\
+    • color\_scheme: "blue, green, red"\\
+    • animation\_description: "draws itself..."\\
+    • transitions: "fade in..."\\
+    • camera\_movement: "zoom in..."\\
+    • duration: 15\\
+    • layout: "center triangle..."
+};
+
+% Stage 4: Narrative Composer
+\node[agent, fill=orange!30] (narrative) at (4,1.5) {
+    \textbf{4. KimiNarrativeComposer}\\
+    \textit{Creates verbose narrative}
+};
+
+% Final enriched tree
+\node[data, fill=orange!20] (tree4) at (4,-1) {
+    \textbf{Final Enriched Tree}\\
+    \vspace{0.1cm}
+    \textit{Added narrative:}\\
+    • verbose\_prompt: "2000+ words"\\
+    • concept\_order: ["pythagorean theorem"]\\
+    • total\_duration: 15\\
+    • scene\_count: 1\\
+    \vspace{0.1cm}
+    \textit{Complete prompt with:}\\
+    • LaTeX equations\\
+    • Visual descriptions\\
+    • Animation timing\\
+    • Color schemes\\
+    • Transitions
+};
+
+% Final Output: Manim Code
+\node[output, fill=red!25] (manim) at (0,-4) {
+    \textbf{Fully Rendered Manim Animation}\\
+    \vspace{0.2cm}
+    \textit{Complete Python code:}\\
+    • Scene class definition\\
+    • Visual objects (Triangle, Square, MathTex)\\
+    • Animations (Create, FadeIn, Transform)\\
+    • LaTeX equations rendered\\
+    • Color schemes applied\\
+    • Timing and transitions\\
+    • Camera movements\\
+    \vspace{0.2cm}
+    \textit{Ready to render video}
+};
+
+% Flow arrows
+\draw[arrow, thick] (input) -- (explorer) node[midway, right, label] {concept};
+\draw[arrow, thick] (explorer) -- (tree1) node[midway, left, label] {recursive\\exploration};
+\draw[arrow, thick] (tree1) -- (math) node[midway, left, label] {KnowledgeNode};
+\draw[arrow, thick] (math) -- (tree2) node[midway, left, label] {math\\enriched};
+\draw[arrow, thick] (tree2) -- (visual) node[midway, below, label, sloped] {math +\\structure};
+\draw[arrow, thick] (explorer) -- (visual) node[midway, right, label] {KnowledgeNode};
+\draw[arrow, thick] (visual) -- (tree3) node[midway, right, label] {visual\\specs};
+\draw[arrow, thick] (tree3) -- (narrative) node[midway, below, label, sloped] {complete\\tree};
+\draw[arrow, thick] (tree2) -- (narrative) node[midway, below, label, sloped] {math +\\visuals};
+\draw[arrow, thick] (narrative) -- (tree4) node[midway, right, label] {verbose\\prompt};
+\draw[arrow, thick, red] (tree4) -- (manim) node[midway, right, label] {\textbf{2000+ word\\narrative}};
+\draw[arrow, thick, red] (tree3) -- (manim) node[midway, left, label, sloped] {visual\\specs};
+
+% Background stages
+\begin{scope}[on background layer]
+    \node[fill=blue!5, rounded corners, fit=(explorer) (tree1), inner sep=5pt, 
+          label={[font=\small\bfseries, anchor=north west]above left:Stage 1: Tree Building}] {};
+    \node[fill=green!5, rounded corners, fit=(math) (tree2), inner sep=5pt,
+          label={[font=\small\bfseries, anchor=north west]above left:Stage 2: Math Enrichment}] {};
+    \node[fill=yellow!5, rounded corners, fit=(visual) (tree3), inner sep=5pt,
+          label={[font=\small\bfseries, anchor=north west]above left:Stage 3: Visual Design}] {};
+    \node[fill=orange!5, rounded corners, fit=(narrative) (tree4), inner sep=5pt,
+          label={[font=\small\bfseries, anchor=north west]above left:Stage 4: Narrative}] {};
+    \node[fill=red!5, rounded corners, fit=(manim), inner sep=5pt,
+          label={[font=\small\bfseries, anchor=north west]above left:Final Output: Manim Code}] {};
+\end{scope}
+
+% Title
+\node[above=0.5cm of input, font=\Large\bfseries] (title) {
+    KimiK2Manim Pipeline: Agent Flow and Content Evolution
+};
+
+% Legend
+\node[below=0.3cm of manim, font=\tiny, align=center, text width=12cm] (legend) {
+    \textbf{Pipeline Characteristics:}\\
+    • \textit{Recursive Processing:} Each agent processes the entire tree recursively\\
+    • \textit{Incremental Enrichment:} Each stage adds a new layer of detail\\
+    • \textit{Cumulative Information:} Later stages use all previous enrichments\\
+    • \textit{Final Output:} Complete narrative contains everything needed for Manim generation
+};
+
+\end{tikzpicture}
+\end{document}
+

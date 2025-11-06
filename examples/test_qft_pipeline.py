@@ -99,16 +99,10 @@ def extract_key_concepts(prompt: str) -> List[str]:
 
 
 async def test_pipeline():
-    """Test the full pipeline with QFT concepts."""
+    """Test the full pipeline with pythagorean theorem."""
     print("=" * 70)
-    print("TESTING KIMI K2 PIPELINE WITH QFT PROMPT")
+    print("TESTING KIMI K2 PIPELINE: PYTHAGOREAN THEOREM")
     print("=" * 70)
-    
-    # Extract concepts
-    concepts = extract_key_concepts(QFT_PROMPT)
-    print(f"\nExtracted {len(concepts)} key concepts:")
-    for i, concept in enumerate(concepts, 1):
-        print(f"  {i}. {concept}")
     
     # Build prerequisite trees for main concepts
     print("\n" + "=" * 70)
@@ -119,8 +113,8 @@ async def test_pipeline():
     trees = {}
     failures = []
     
-    # Focus on the main concept: quantum field theory
-    main_concept = "quantum field theory"
+    # Focus on the main concept: pythagorean theorem
+    main_concept = "pythagorean theorem"
     print(f"\nBuilding tree for: {main_concept}")
     
     try:
@@ -137,7 +131,7 @@ async def test_pipeline():
         return
     
     # Save tree
-    tree_file = Path("output") / "qft_test_tree.json"
+    tree_file = Path("output") / "pythagorean_test_tree.json"
     tree_file.parent.mkdir(exist_ok=True)
     with tree_file.open("w") as f:
         json.dump(tree.to_dict(), f, indent=2)
@@ -150,7 +144,7 @@ async def test_pipeline():
     
     try:
         pipeline = KimiEnrichmentPipeline()
-        print("\nRunning mathematical enrichment...")
+        print("\nRunning enrichment chain (math -> visuals -> narrative)...")
         result = await pipeline.run_async(tree)
         
         print(f"\n[OK] Enrichment completed successfully")
@@ -159,13 +153,13 @@ async def test_pipeline():
         print(f"  Scene count: {result.narrative.scene_count}")
         
         # Save enriched tree
-        enriched_file = Path("output") / "qft_enriched_tree.json"
+        enriched_file = Path("output") / "pythagorean_enriched_tree.json"
         with enriched_file.open("w") as f:
             json.dump(result.enriched_tree.to_dict(), f, indent=2)
         print(f"\n[OK] Saved enriched tree to {enriched_file}")
         
         # Save narrative
-        narrative_file = Path("output") / "qft_narrative.txt"
+        narrative_file = Path("output") / "pythagorean_narrative.txt"
         narrative_file.write_text(result.narrative.verbose_prompt, encoding="utf-8")
         print(f"[OK] Saved narrative to {narrative_file}")
         

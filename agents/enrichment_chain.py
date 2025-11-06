@@ -21,7 +21,11 @@ import json
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional
 
-from ..kimi_client import KimiClient, get_kimi_client
+# Import Kimi K2 components - handle both package and standalone
+try:
+    from ..kimi_client import KimiClient, get_kimi_client
+except ImportError:
+    from kimi_client import KimiClient, get_kimi_client
 
 from .prerequisite_explorer_kimi import KnowledgeNode
 

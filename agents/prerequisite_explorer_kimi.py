@@ -15,10 +15,15 @@ import re
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional
 
-# Import Kimi K2 components
-from ..kimi_client import KimiClient, get_kimi_client
-from ..tool_adapter import ToolAdapter
-from ..config import TOOLS_ENABLED, FALLBACK_TO_VERBOSE
+# Import Kimi K2 components - handle both package and standalone
+try:
+    from ..kimi_client import KimiClient, get_kimi_client
+    from ..tool_adapter import ToolAdapter
+    from ..config import TOOLS_ENABLED, FALLBACK_TO_VERBOSE
+except ImportError:
+    from kimi_client import KimiClient, get_kimi_client
+    from tool_adapter import ToolAdapter
+    from config import TOOLS_ENABLED, FALLBACK_TO_VERBOSE
 
 # No external tools dependency - standalone package
 ALL_TOOLS = []

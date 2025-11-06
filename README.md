@@ -19,6 +19,155 @@ KimiK2Manim uses the Kimi K2 model (via Moonshot AI's OpenAI-compatible API) to:
 - **KimiEnrichmentPipeline**: Complete enrichment chain (math → visuals → narrative)
 - **Standalone Package**: No dependencies on parent projects
 
+## Agent Pipeline Flow
+
+The KimiK2Manim pipeline consists of **4 sequential agents** that progressively enrich a knowledge tree until it contains everything needed to generate Manim animation code.
+
+### Pipeline Stages
+
+```
+User Prompt → [Agent 1] → [Agent 2] → [Agent 3] → [Agent 4] → Manim Code
+              Tree        Math        Visual      Narrative
+```
+
+#### Stage 1: Prerequisite Explorer (`KimiPrerequisiteExplorer`)
+
+**Input**: User concept string (e.g., "pythagorean theorem")  
+**Output**: `KnowledgeNode` tree with prerequisite structure
+
+**Process**:
+- Recursively explores prerequisite concepts
+- Builds a hierarchical knowledge tree
+- Each node contains: `concept`, `depth`, `is_foundation`, `prerequisites[]`
+
+**Tool Calls**: Uses Kimi K2 to identify prerequisite concepts through natural language reasoning
+
+#### Stage 2: Mathematical Enricher (`KimiMathematicalEnricher`)
+
+**Input**: `KnowledgeNode` tree from Stage 1  
+**Output**: Math-enriched tree with equations and definitions
+
+**Process**:
+- Recursively processes each node in the tree
+- Adds mathematical content to each concept
+- Enriches nodes with: `equations[]`, `definitions{}`, `interpretation`, `examples[]`, `typical_values{}`
+
+**Tool Calls**: Uses `write_mathematical_content` tool to get structured math data:
+```python
+{
+    "equations": ["a²+b²=c²", "c=√(a²+b²)"],
+    "definitions": {"a": "length of leg", "b": "length of leg", "c": "hypotenuse"},
+    "interpretation": "Geometric relationship in right triangles",
+    "examples": ["3-4-5 triangle", "5-12-13 triangle"],
+    "typical_values": {"3-4-5": "classic integer triangle"}
+}
+```
+
+#### Stage 3: Visual Designer (`KimiVisualDesigner`)
+
+**Input**: Math-enriched `KnowledgeNode` tree from Stage 2  
+**Output**: Visual-enriched tree with Manim specifications
+
+**Process**:
+- Recursively designs visual specifications for each node
+- Adds visual planning to `visual_spec` field
+- Enriches with: `visual_description`, `color_scheme`, `animation_description`, `transitions`, `camera_movement`, `duration`, `layout`
+
+**Tool Calls**: Uses `design_visual_plan` tool to get structured visual data:
+```python
+{
+    "visual_description": "Right triangle with squares on each side",
+    "color_scheme": "Blue, green, red for sides a, b, c",
+    "animation_description": "Triangle draws itself, squares build outward",
+    "transitions": "Fade in triangle first",
+    "camera_movement": "Wide shot then zoom in",
+    "duration": 15,
+    "layout": "Center triangle with equation below"
+}
+```
+
+#### Stage 4: Narrative Composer (`KimiNarrativeComposer`)
+
+**Input**: Fully enriched `KnowledgeNode` tree (math + visuals) from Stage 3  
+**Output**: Complete verbose narrative prompt (2000+ words)
+
+**Process**:
+- Orders nodes topologically (foundations first)
+- Composes a single continuous narrative integrating all enrichments
+- Creates final `narrative` field with verbose prompt
+
+**Tool Calls**: Uses `compose_narrative` tool to generate the final prompt:
+```python
+{
+    "verbose_prompt": "2000+ word narrative with LaTeX, visuals, timing...",
+    "concept_order": ["foundation1", "foundation2", "target_concept"],
+    "total_duration": 45,
+    "scene_count": 3
+}
+```
+
+### Tool Call Architecture
+
+Each agent uses **Kimi K2's tool calling** to get structured data:
+
+1. **Tool Definition**: Each agent defines a tool schema (function name, parameters, descriptions)
+2. **API Call**: Agent sends tool definition to Kimi K2 with the task prompt
+3. **Tool Response**: Kimi K2 returns structured JSON via function call
+4. **Data Extraction**: Agent extracts JSON payload from `tool_calls[0].function.arguments`
+5. **Fallback**: If tool call fails, falls back to parsing JSON from text response
+
+**Example Tool Call Flow**:
+```python
+# Agent sends request with tool definition
+response = client.chat_completion(
+    messages=[{"role": "user", "content": "Enrich pythagorean theorem"}],
+    tools=[MATHEMATICAL_CONTENT_TOOL],
+    tool_choice="auto"
+)
+
+# Extract structured data from tool call
+tool_calls = response["choices"][0]["message"]["tool_calls"]
+payload = json.loads(tool_calls[0]["function"]["arguments"])
+# payload = {"equations": [...], "definitions": {...}, ...}
+```
+
+### Progressive Enrichment
+
+The `KnowledgeNode` tree gets progressively enriched at each stage:
+
+```
+Initial Tree:
+  - concept
+  - depth
+  - prerequisites[]
+
+After Math Enrichment:
+  + equations[]
+  + definitions{}
+  + interpretation
+  + examples[]
+
+After Visual Enrichment:
+  + visual_spec.visual_description
+  + visual_spec.color_scheme
+  + visual_spec.animation_description
+  + visual_spec.duration
+  + ...
+
+After Narrative Composition:
+  + narrative (verbose_prompt)
+```
+
+### Final Output
+
+The enriched tree contains everything needed for Manim code generation:
+- **Equations**: LaTeX strings ready for `MathTex()`
+- **Visual Specs**: Complete descriptions of what to animate
+- **Narrative**: 2000+ word prompt with timing, transitions, and scene flow
+- **Structure**: Prerequisite ordering ensures logical presentation
+
+This enriched data can then be used to generate complete Manim Python code that renders the animation.
+
 ## Installation
 
 ### From Source
@@ -51,9 +200,9 @@ Create a `.env` file in the project root:
 
 ```bash
 MOONSHOT_API_KEY=your_api_key_here
-KIMI_MODEL=moonshot-v1-8k  # Optional: specify model name
+KIMI_MODEL=kimi-k2-0905-preview  # Optional: specify model name (Kimi K2 model)
 KIMI_USE_TOOLS=true        # Optional: enable/disable tools
-KIMI_ENABLE_THINKING=true   # Optional: enable thinking mode
+KIMI_ENABLE_THINKING=heavy  # Optional: thinking mode - "heavy" (max reasoning), "medium", "light", or "true"/"false"
 ```
 
 ### 3. Basic Usage
@@ -135,9 +284,9 @@ KimiK2Manim/
 All configuration is in `config.py` or via environment variables:
 
 - `MOONSHOT_API_KEY`: Your Moonshot AI API key (required)
-- `KIMI_MODEL`: Model name (default: "moonshot-v1-8k")
+- `KIMI_MODEL`: Kimi K2 model name (default: "kimi-k2-0905-preview")
 - `KIMI_USE_TOOLS`: Enable tool calling (default: "true")
-- `KIMI_ENABLE_THINKING`: Enable thinking mode (default: "true")
+- `KIMI_ENABLE_THINKING`: Thinking mode - "heavy" (max reasoning), "medium", "light", or "true"/"false" (default: "true")
 
 ## Key Components
 
@@ -209,13 +358,34 @@ pytest tests/ -v -k "not api"
 
 ## Architecture
 
-The package follows a three-layer architecture:
+The package follows a layered architecture with agent orchestration:
 
-1. **Client Layer**: `KimiClient` handles all API communication
-2. **Adapter Layer**: `ToolAdapter` converts tools to instructions when needed
-3. **Agent Layer**: Agents orchestrate knowledge tree building and enrichment
+1. **Client Layer**: `KimiClient` handles all API communication with Moonshot AI
+2. **Adapter Layer**: `ToolAdapter` converts tool calls to verbose instructions when tools aren't available
+3. **Agent Layer**: 4 sequential agents orchestrate knowledge tree building and enrichment
+4. **Orchestrator**: `KimiEnrichmentPipeline` coordinates the 3 enrichment agents
 
-See `ARCHITECTURE.md` for detailed architecture documentation.
+### Agent Orchestration
+
+The `KimiEnrichmentPipeline` orchestrator runs agents in sequence:
+
+```python
+async def run_async(self, root: KnowledgeNode) -> EnrichmentResult:
+    # Stage 2: Math enrichment (recursive)
+    await self.math.enrich_tree(root)
+    
+    # Stage 3: Visual design (recursive)
+    await self.visual.design_tree(root)
+    
+    # Stage 4: Narrative composition
+    narrative = await self.narrative.compose_async(root)
+    
+    return EnrichmentResult(enriched_tree=root, narrative=narrative)
+```
+
+Each agent processes the entire tree recursively, ensuring all nodes (including prerequisites) are enriched before moving to the next stage.
+
+See `docs/ARCHITECTURE.md` for detailed architecture documentation.
 
 ## License
 
