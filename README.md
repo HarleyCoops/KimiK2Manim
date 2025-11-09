@@ -398,7 +398,7 @@ The rhombicosidodecahedron is an Archimedean solid with:
 
 #### Visual Design Features
 
-The animation ([render_rhombicosidodecahedron.py](render_rhombicosidodecahedron.py)) showcases:
+The animation ([manim_scenes/render_rhombicosidodecahedron.py](manim_scenes/render_rhombicosidodecahedron.py)) showcases:
 
 - **Color-coded face types**:
   - Gold edges for pentagonal faces
@@ -411,7 +411,7 @@ The animation ([render_rhombicosidodecahedron.py](render_rhombicosidodecahedron.
 
 #### Enhanced Epic Version
 
-The [epic_rhombicosidodecahedron.py](epic_rhombicosidodecahedron.py) includes additional effects:
+The [manim_scenes/epic_rhombicosidodecahedron.py](manim_scenes/epic_rhombicosidodecahedron.py) includes additional effects:
 
 - **Starfield background** with 100 animated stars
 - **Enhanced glow effects** on edges and vertices
@@ -440,14 +440,16 @@ To render the rhombicosidodecahedron:
 
 ```bash
 # Basic version
-manim -pql render_rhombicosidodecahedron.py ArtisticRhombicosidodecahedron
+manim -pql manim_scenes/render_rhombicosidodecahedron.py ArtisticRhombicosidodecahedron
 
 # Epic version with enhanced effects
-manim -pql epic_rhombicosidodecahedron.py EpicRhombicosidodecahedron
+manim -pql manim_scenes/epic_rhombicosidodecahedron.py EpicRhombicosidodecahedron
 
 # High quality render
-manim -pqh epic_rhombicosidodecahedron.py EpicRhombicosidodecahedron
+manim -pqh manim_scenes/epic_rhombicosidodecahedron.py EpicRhombicosidodecahedron
 ```
+
+See [manim_scenes/README.md](manim_scenes/README.md) for more rendering examples and all available scenes.
 
 This demonstrates how KimiK2Manim can be used to generate complex mathematical visualizations with artistic flair!
 
@@ -462,14 +464,40 @@ KimiK2Manim/
 ├── config.py                    # Configuration and constants
 ├── kimi_client.py               # Kimi K2 API client wrapper
 ├── tool_adapter.py              # Tool call to verbose instruction converter
-├── agents/                       # Refactored agents
+│
+├── agents/                      # Core AI agents
 │   ├── __init__.py
-│   ├── prerequisite_explorer_kimi.py
-│   └── enrichment_chain.py     # Mathematical, visual, and narrative enrichment
-└── examples/                    # Example usage scripts
-    ├── test_kimi_integration.py
-    ├── run_enrichment_pipeline.py
-    └── test_qft_pipeline.py
+│   ├── prerequisite_explorer_kimi.py  # Knowledge tree builder
+│   └── enrichment_chain.py     # Math, visual, narrative enrichment
+│
+├── manim_scenes/                # Manim animation scripts
+│   ├── README.md               # Scene documentation
+│   ├── render_rhombicosidodecahedron.py
+│   ├── epic_rhombicosidodecahedron.py
+│   ├── enhance_rhombicosidodecahedron.py
+│   ├── kimi2pythag.py
+│   └── Kimik2First.py
+│
+├── examples/                    # Example usage and test scripts
+│   ├── test_kimi_integration.py
+│   ├── run_enrichment_pipeline.py
+│   ├── test_qft_pipeline.py
+│   ├── run_pipeline.py
+│   ├── test_pipeline_debug.py
+│   └── test_pipeline_simple.py
+│
+├── output/                      # Generated outputs
+│   └── rhombicosidodecahedron_narrative.txt
+│
+├── media/                       # Manim rendered videos
+│   └── videos/
+│
+├── docs/                        # Documentation
+│   └── ARCHITECTURE.md
+│
+└── dev/                         # Development and experimental files
+    ├── KimiChatRhom.py
+    └── textprompt.txt
 ```
 
 ## Configuration
