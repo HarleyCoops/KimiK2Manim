@@ -196,6 +196,7 @@ class KimiMathematicalEnricher:
             "and any illustrative examples/typical values that help teach the idea."
         )
 
+        print(f"\n[MATH ENRICHMENT] Enriching: '{node.concept}' (depth {node.depth})")
         response = self.client.chat_completion(
             messages=[{"role": "user", "content": user_prompt}],
             system=system_prompt,
@@ -209,6 +210,12 @@ class KimiMathematicalEnricher:
         if payload is None:
             payload = _parse_json_fallback(self.client.get_text_content(response)) or {}
 
+        print(f"[MATH ENRICHMENT] Extracted payload for '{node.concept}'")
+        print(f"  Equations: {len(payload.get('equations', []))} equation(s)")
+        print(f"  Definitions: {len(payload.get('definitions', {}))} definition(s)")
+        if payload.get('equations'):
+            print(f"  Equation preview: {payload['equations'][0][:100]}...")
+        
         math_content = MathematicalContent.from_payload(payload)
         self.cache[node.concept] = math_content
 
@@ -379,6 +386,7 @@ class KimiVisualDesigner:
             "Estimate duration in seconds."
         )
 
+        print(f"\n[VISUAL DESIGN] Designing visuals for: '{node.concept}'")
         response = self.client.chat_completion(
             messages=[{"role": "user", "content": user_prompt}],
             system=system_prompt,
@@ -392,6 +400,12 @@ class KimiVisualDesigner:
         if payload is None:
             payload = _parse_json_fallback(self.client.get_text_content(response)) or {}
 
+        print(f"[VISUAL DESIGN] Extracted visual spec for '{node.concept}'")
+        print(f"  Visual description: {payload.get('visual_description', '')[:150]}...")
+        print(f"  Color scheme: {payload.get('color_scheme', 'N/A')}")
+        print(f"  Animation: {payload.get('animation_description', 'N/A')[:100]}...")
+        print(f"  Duration: {payload.get('duration', 'N/A')}s")
+        
         visual_spec = VisualSpec.from_payload(node.concept, payload)
 
         if node.visual_spec is None:
@@ -502,6 +516,9 @@ class KimiNarrativeComposer:
             "Return your work by calling the tool."
         )
 
+        print(f"\n[NARRATIVE COMPOSITION] Composing narrative for '{root.concept}'")
+        print(f"  Concepts in order: {len(ordered_nodes)} node(s)")
+        print(f"  Estimated total duration: {total_duration}s")
         response = self.client.chat_completion(
             messages=[{"role": "user", "content": user_prompt}],
             system=system_prompt,
@@ -519,6 +536,12 @@ class KimiNarrativeComposer:
         total_duration = payload.get("total_duration", total_duration)
         scene_count = payload.get("scene_count", len(ordered_nodes))
         concept_order = payload.get("concept_order", concept_order)
+
+        print(f"[NARRATIVE COMPOSITION] Narrative composed")
+        print(f"  Length: {len(verbose_prompt)} characters")
+        print(f"  Total duration: {total_duration}s")
+        print(f"  Scene count: {scene_count}")
+        print(f"  Preview: {verbose_prompt[:200]}...")
 
         root.narrative = verbose_prompt
 

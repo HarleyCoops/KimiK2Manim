@@ -1,0 +1,27 @@
+Create an epic, cinematic 3D animation of a rhombicosidodecahedron using Manim's ThreeDScene class. This should be a visually stunning mathematical visualization that transforms a technical geometric model into a dramatic space-themed showcase.
+Core Geometry:
+Construct the rhombicosidodecahedron using precise vertex coordinates derived from the golden ratio, with 60 vertices at the specified coordinates using McCooey's mathematical data
+The polyhedron must have 62 faces: 12 pentagons, 30 squares, and 20 triangles, all properly connected with shared edges
+Each face type should be visually distinct: render pentagonal edges in glowing gold, square edges in luminous blue, and triangular edges in radiant red
+All edges should have a subtle glow effect (2.5x stroke width at 20% opacity behind the main edge)
+Visual Design:
+Create multi-layered glowing vertices: small white core spheres (radius 0.08), middle yellow halos (radius 0.12, 30% opacity), and outer white glows (radius 0.2, 10% opacity)
+Set the polyhedron scale to 2.2 and center it at the origin
+Add a dynamic starfield background with 100 white dots randomly distributed in 3D space, slowly rotating around the UP axis at 0.1 rad/sec
+The background should be a cinematic gradient: BLACK → #001122 → #002244 → #001122 → BLACK
+Camera Work:
+Initial orientation: phi=70°, theta=-45°, distance=10, with 1.8x zoom
+Implement continuous complex rotation on multiple axes: 0.8 rad/sec rotation with an axis that fluidly changes based on scene time using a normalized vector combining sin(time×0.4)×UP + cos(time×0.3)×RIGHT + sin(time×0.2)×OUT
+Add dynamic camera movements: start with 1.8x zoom, pull out to 1.5x over 3 seconds, rotate around UP axis by π/4 over 5 seconds, zoom into 2.5x over 3 seconds for detail, pull back to 1.2x over 3 seconds
+Animation Sequence (35 seconds total):
+Opening (0-7s): Fade in starfield background over 2 seconds, then reveal the polyhedron and fade in a title text "Rhombicosidodecahedron" (48pt GOLD) at the top over 4 seconds with smooth easing
+Establishing Shot (7-15s): Main rotation sequence with dynamic camera movement, showing the polyhedron from multiple angles
+Detail Shot (15-23s): Zoom into 2.5x for close-up detail examination
+Wide Shot (23-29s): Pull back to 1.2x for contextual overview
+Closing (29-35s): Fade out polyhedron and title over 4 seconds with smooth easing
+Technical Specifications:
+Use Manim's Line3D for all edges with appropriate stroke widths: pentagons 3.0, squares 2.5, triangles 2.0
+All geometry should be properly scaled and centered
+Animation should run at default frame rate with smooth (rate_func=smooth) transitions
+Keep the mathematical accuracy while prioritizing visual spectacle
+The overall mood should be educational yet cinematic, like an IMAX film opener about mathematics

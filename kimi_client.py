@@ -134,9 +134,21 @@ class KimiClient:
             if tool_choice:
                 params["tool_choice"] = tool_choice
 
+        # Log API call details
+        print(f"\n[API CALL] Making request to {self.model}")
+        print(f"  Messages: {len(api_messages)} message(s)")
+        if system:
+            print(f"  System prompt: {system[:100]}...")
+        print(f"  User message: {messages[0]['content'][:150]}...")
+        print(f"  Max tokens: {max_tokens}, Temperature: {temperature}")
+        if tools:
+            print(f"  Tools: {len(tools)} tool(s) available")
+        print(f"  Tool choice: {tool_choice}")
+        
         # Make API call
         try:
             response = self.client.chat.completions.create(**params)
+            print(f"[API CALL] Request successful")
         except Exception as e:
             # Provide more helpful error message for authentication issues
             error_msg = str(e)
@@ -156,7 +168,25 @@ class KimiClient:
         if stream:
             return response  # Return stream object as-is
         else:
-            return self._format_response(response)
+            formatted = self._format_response(response)
+            # Log response details
+            print(f"[API RESPONSE] Received response")
+            if formatted.get("usage"):
+                usage = formatted["usage"]
+                print(f"  Tokens used: {usage.get('prompt_tokens', 0)} prompt + {usage.get('completion_tokens', 0)} completion = {usage.get('total_tokens', 0)} total")
+            text_content = self.get_text_content(formatted)
+            if text_content:
+                print(f"  Text content length: {len(text_content)} chars")
+                print(f"  Text preview: {text_content[:200]}...")
+            if self.has_tool_calls(formatted):
+                tool_calls = self.get_tool_calls(formatted)
+                print(f"  Tool calls: {len(tool_calls)} call(s)")
+                for i, tc in enumerate(tool_calls):
+                    func_name = tc.get("function", {}).get("name", "unknown")
+                    args_preview = tc.get("function", {}).get("arguments", "")[:150]
+                    print(f"    Tool {i+1}: {func_name}")
+                    print(f"      Arguments preview: {args_preview}...")
+            return formatted
 
     def _format_response(self, response) -> Dict[str, Any]:
         """Format OpenAI response to consistent dict format."""
