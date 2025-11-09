@@ -4,9 +4,10 @@
 
 <div align="center">
 
-<a href="https://github.com/HarleyCoops/KimiK2Manim/stargazers">
-  <img alt="GitHub stars" src="https://img.shields.io/github/stars/HarleyCoops/KimiK2Manim?style=for-the-badge&logo=github&label=Star&color=gold">
-</a>
+
+[![Star History Chart](https://api.star-history.com/svg?repos=HarleyCoops/KimiK2Manim&type=date&legend=top-left)](https://www.star-history.com/#HarleyCoops/Math-To-Manim&type=date&legend=top-left)
+
+
 
 ![Slow-Fast Network Architecture](media/videos/SlowFastNetwork/480p15/SlowFastNetwork.gif)
 
