@@ -1,6 +1,23 @@
 # KimiK2Manim
 
-<iframe style="width:100%;height:auto;min-width:600px;min-height:400px;" src="https://www.star-history.com/embed?repo=HarleyCoops/KimiK2Manim&type=date&legend=top-left" frameBorder="0"></iframe>
+<picture>
+  <source
+    media="(prefers-color-scheme: dark)"
+    srcset="
+      https://api.star-history.com/svg?repos=HarleyCoops/KimiK2Manim&type=Date&theme=dark
+    "
+  />
+  <source
+    media="(prefers-color-scheme: light)"
+    srcset="
+      https://api.star-history.com/svg?repos=HarleyCoops/KimiK2Manim&type=Date
+    "
+  />
+  <img
+    alt="Star History Chart"
+    src="https://api.star-history.com/svg?repos=HarleyCoops/KimiK2Manim&type=Date"
+  />
+</picture>
 
 <div align="center">
 
