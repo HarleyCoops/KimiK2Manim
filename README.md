@@ -6,6 +6,10 @@
   <img alt="GitHub stars" src="https://img.shields.io/github/stars/HarleyCoops/KimiK2Manim?style=for-the-badge&logo=github&label=Star&color=gold">
 </a>
 
+![Slow-Fast Network Architecture](media/videos/SlowFastNetwork/480p15/SlowFastNetworkPhD.gif)
+
+*Unnormalized Linear Transformers via [Jürgen Schmidhuber](https://people.idsia.ch/~juergen/1991-unnormalized-linear-transformer.html) and [@SchmidhuberAI](https://twitter.com/SchmidhuberAI) - The 1991 ULTRA (Unnormalized Linear Transformer) demonstrating how a SLOW hypernetwork programs FAST task-specific network weights through additive outer products of KEY and VALUE vectors.*
+
 ![Rhombicosidodecahedron Animation](media/videos/render_rhombicosidodecahedron/480p15/partial_movie_files/ArtisticRhombicosidodecahedron/rhombicosidodecahedron_preview.gif)
 
 *Rhombicosidodecahedron with 62 faces, golden ratio geometry, and dynamic multi-axis rotation*
@@ -484,6 +488,67 @@ manim -pql manim_scenes/epic_rhombicosidodecahedron.py EpicRhombicosidodecahedro
 # High quality render
 manim -pqh manim_scenes/epic_rhombicosidodecahedron.py EpicRhombicosidodecahedron
 ```
+
+### Slow-Fast Network Architecture (1991 ULTRA)
+
+The Slow-Fast Network animation visualizes the foundational architecture behind modern Transformers, based on Jürgen Schmidhuber's 1991 [Unnormalized Linear Transformer (ULTRA)](https://people.idsia.ch/~juergen/1991-unnormalized-linear-transformer.html).
+
+**Mathematical Concept**: A meta-learning system where a **SLOW hypernetwork** learns to program the weights of a **FAST task-specific network** through additive outer products of KEY and VALUE vectors:
+
+```
+W = Σ(k_i ⊗ v_i) = Σ(k_i · v_i^T)
+```
+
+Where:
+- **SLOW Network**: Generates KEY and VALUE vectors contextually
+- **FAST Network**: Uses dynamically programmed weights W
+- **Outer Product**: `k ⊗ v = k · v^T` creates weight matrices
+- **QUERY**: Input processed by the fast weight matrix
+
+#### Historical Significance
+
+The 1991 ULTRA predates Google's 2017 quadratic Transformer by 26 years and scales **linearly** in input size (O(n)) rather than quadratically (O(n²)). This architecture demonstrates:
+
+- **End-to-end differentiable** fast weight programming
+- **Self-invented KEY/VALUE patterns** learned through gradient descent
+- **Meta-learning** capabilities where networks learn to program other networks
+- **Linear attention** mechanism (without softmax normalization)
+
+#### Animation Structure
+
+The animation ([SlowFastNetwork.py](SlowFastNetwork.py)) presents the architecture in multiple sections:
+
+1. **Introduction**: Title and overview of SLOW vs FAST networks
+2. **Architecture Overview**: Visual representation of the two-network system
+3. **KEY & VALUE Generation**: How SLOW network produces programming vectors
+4. **Outer Product Mechanism**: Mathematical formulation of weight programming
+5. **Fast Weight Matrix**: Dynamic weight construction through additive outer products
+6. **Meta-Learning Perspective**: Learning to learn through differentiable programming
+7. **Applications**: Modern relevance to Transformers and linear attention
+
+#### Visual Design Features
+
+- **Color-coded networks**: SLOW (blue) and FAST (green) networks visually distinct
+- **Animated outer products**: Matrix multiplication visualized step-by-step
+- **LaTeX equations**: Professional mathematical notation throughout
+- **Vector animations**: KEY and VALUE vectors shown as flowing data
+- **Weight matrix visualization**: Dynamic construction of fast weights
+- **Clean typography**: PhD-level presentation suitable for academic audiences
+
+#### Rendering the Animation
+
+```bash
+# Preview quality
+manim -pql SlowFastNetwork.py SlowFastNetworkPhD
+
+# High quality render
+manim -pqh SlowFastNetwork.py SlowFastNetworkPhD
+
+# Convert to GIF
+ffmpeg -i media/videos/SlowFastNetwork/480p15/SlowFastNetworkPhD.mp4 -vf "fps=10,scale=640:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" -loop 0 media/videos/SlowFastNetwork/480p15/SlowFastNetworkPhD.gif
+```
+
+**Reference**: [The 1991 Unnormalized Linear Transformer (ULTRA)](https://people.idsia.ch/~juergen/1991-unnormalized-linear-transformer.html) by Jürgen Schmidhuber ([@SchmidhuberAI](https://twitter.com/SchmidhuberAI))
 
 ### Harmonic Division Theorem Animation
 
