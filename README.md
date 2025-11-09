@@ -1,5 +1,11 @@
 # KimiK2Manim
 
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=HarleyCoops/KimiK2Manim.git&type=date&legend=top-left)](https://www.star-history.com/#HarleyCoops/KimiK2Manim.git&type=date&legend=top-left)
+
+---
+
 A standalone Python package for generating Manim animations using the **Kimi K2 thinking model** from Moonshot AI. This package provides agents that build knowledge trees, enrich them with mathematical content and visual specifications, and compose narrative prompts for Manim animation generation.
 
 ## Overview
@@ -131,6 +137,117 @@ payload = json.loads(tool_calls[0]["function"]["arguments"])
 # payload = {"equations": [...], "definitions": {...}, ...}
 ```
 
+### API Call Implementation Details
+
+KimiK2Manim uses the **OpenAI-compatible API** from Moonshot AI to communicate with the Kimi K2 thinking model:
+
+#### KimiClient Architecture
+
+The [KimiClient](kimi_client.py) class wraps the OpenAI Python SDK:
+
+```python
+from openai import OpenAI
+
+class KimiClient:
+    def __init__(self, api_key=None, base_url=None, model=None):
+        self.client = OpenAI(
+            api_key=api_key or MOONSHOT_API_KEY,
+            base_url=base_url or "https://api.moonshot.cn/v1"
+        )
+        self.model = model or "kimi-k2-0905-preview"
+```
+
+#### API Call Features
+
+1. **Tool Calling Support**: The client supports OpenAI-compatible function calling
+   - Tools defined in JSON schema format
+   - Automatic extraction of structured responses
+   - Fallback to text parsing if tool calls fail
+
+2. **Response Formatting**: Converts OpenAI SDK responses to consistent dict format
+   - Extracts message content, tool calls, and usage statistics
+   - Handles streaming and non-streaming responses
+
+3. **Error Handling**: Provides detailed authentication and API error messages
+   - 401 authentication troubleshooting
+   - API key validation
+   - Endpoint verification
+
+4. **Logging**: Built-in verbose logging for debugging
+   - API request details (messages, tokens, tools)
+   - Response metadata (token usage, content length)
+   - Tool call information (function names, arguments)
+
+#### Tool Definition Structure
+
+Each agent defines tools using OpenAI's function calling schema:
+
+```python
+MATHEMATICAL_CONTENT_TOOL = {
+    "type": "function",
+    "function": {
+        "name": "write_mathematical_content",
+        "description": "Return key mathematical information...",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "equations": {
+                    "type": "array",
+                    "description": "2-5 LaTeX strings",
+                    "items": {"type": "string"}
+                },
+                "definitions": {
+                    "type": "object",
+                    "description": "Symbol to definition mapping",
+                    "additionalProperties": {"type": "string"}
+                }
+                # ... more properties
+            },
+            "required": ["equations", "definitions"]
+        }
+    }
+}
+```
+
+#### ToolAdapter for Non-Tool Mode
+
+The [ToolAdapter](tool_adapter.py) converts tool definitions to natural language instructions when tool calling is unavailable:
+
+```python
+from kimik2manim.tool_adapter import ToolAdapter
+
+adapter = ToolAdapter()
+instructions = adapter.tools_to_instructions([MATHEMATICAL_CONTENT_TOOL])
+# Converts tool schema to verbose prompt instructions
+```
+
+This allows the pipeline to work even if the API doesn't support function calling.
+
+#### API Call Example from Enrichment Pipeline
+
+From [enrichment_chain.py:199-207](agents/enrichment_chain.py#L199-L207):
+
+```python
+response = self.client.chat_completion(
+    messages=[{"role": "user", "content": user_prompt}],
+    system=system_prompt,
+    tools=[MATHEMATICAL_CONTENT_TOOL],
+    tool_choice="auto",
+    max_tokens=1200,
+    temperature=0.2,
+)
+
+payload = _extract_tool_payload(response)
+if payload is None:
+    payload = _parse_json_fallback(self.client.get_text_content(response))
+```
+
+The enrichment agents make API calls with:
+- **Structured system prompts** describing the agent's role
+- **User prompts** with concept details and enrichment requirements
+- **Tool definitions** specifying expected JSON structure
+- **Fallback parsing** if structured tool calls aren't returned
+
 ### Progressive Enrichment
 
 The `KnowledgeNode` tree gets progressively enriched at each stage:
@@ -257,6 +374,72 @@ asyncio.run(main())
 # Run enrichment pipeline on a tree JSON file
 python examples/run_enrichment_pipeline.py path/to/tree.json
 ```
+
+## Example Renderings
+
+### Rhombicosidodecahedron Animation
+
+KimiK2Manim has been used to generate stunning 3D visualizations, including this rhombicosidodecahedron animation:
+
+The rhombicosidodecahedron is an Archimedean solid with:
+- **62 faces**: 20 triangles, 30 squares, and 12 pentagons
+- **60 vertices** positioned using golden ratio-based coordinates
+- **120 edges** connecting the vertices
+
+#### Visual Design Features
+
+The animation ([render_rhombicosidodecahedron.py](render_rhombicosidodecahedron.py)) showcases:
+
+- **Color-coded face types**:
+  - Gold edges for pentagonal faces
+  - Blue edges for square faces
+  - Red edges for triangular faces
+- **Glowing vertices** with multi-layer halos
+- **Dynamic rotation** on multiple axes with time-varying rotation vector
+- **Gradient background** with deep space aesthetic
+- **Smooth camera movements** and zoom effects
+
+#### Enhanced Epic Version
+
+The [epic_rhombicosidodecahedron.py](epic_rhombicosidodecahedron.py) includes additional effects:
+
+- **Starfield background** with 100 animated stars
+- **Enhanced glow effects** on edges and vertices
+- **Dynamic camera orbits** with zoom in/out sequences
+- **Multi-layered vertex halos** (outer, middle, core)
+- **Smooth fade in/out transitions**
+- **Title overlay** with golden text
+
+#### Mathematical Formulation
+
+The vertex coordinates use golden ratio constants from McCooey's data:
+
+```python
+C0 = (1 + √5) / 4
+C1 = (3 + √5) / 4
+C2 = (1 + √5) / 2  # Golden ratio φ
+C3 = (5 + √5) / 4
+C4 = (2 + √5) / 2
+```
+
+Vertices are positioned in 3D space using combinations of these constants, creating the precise geometry of the rhombicosidodecahedron.
+
+#### Rendering the Animation
+
+To render the rhombicosidodecahedron:
+
+```bash
+# Basic version
+manim -pql render_rhombicosidodecahedron.py ArtisticRhombicosidodecahedron
+
+# Epic version with enhanced effects
+manim -pql epic_rhombicosidodecahedron.py EpicRhombicosidodecahedron
+
+# High quality render
+manim -pqh epic_rhombicosidodecahedron.py EpicRhombicosidodecahedron
+```
+
+This demonstrates how KimiK2Manim can be used to generate complex mathematical visualizations with artistic flair!
 
 ## Project Structure
 
