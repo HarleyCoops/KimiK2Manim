@@ -20,7 +20,24 @@
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=HarleyCoops/KimiK2Manim&type=date&legend=top-left)](https://www.star-history.com/#HarleyCoops/KimiK2Manim&type=date&legend=top-left)
+<picture>
+  <source
+    media="(prefers-color-scheme: dark)"
+    srcset="
+      https://api.star-history.com/svg?repos=HarleyCoops/KimiK2Manim&type=Date&theme=dark
+    "
+  />
+  <source
+    media="(prefers-color-scheme: light)"
+    srcset="
+      https://api.star-history.com/svg?repos=HarleyCoops/KimiK2Manim&type=Date
+    "
+  />
+  <img
+    alt="Star History Chart"
+    src="https://api.star-history.com/svg?repos=HarleyCoops/KimiK2Manim&type=Date"
+  />
+</picture>
 
 ---
 
