@@ -2,7 +2,7 @@
 
 <div align="center">
 
-<a href="https://github.com/HarleyCoops/KimiK2Manim">
+<a href="https://github.com/HarleyCoops/KimiK2Manim/stargazers">
   <img alt="GitHub stars" src="https://img.shields.io/github/stars/HarleyCoops/KimiK2Manim?style=for-the-badge&logo=github&label=Star&color=gold">
 </a>
 
