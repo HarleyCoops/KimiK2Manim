@@ -20,7 +20,7 @@
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=HarleyCoops/KimiK2Manim&type=Date)](https://star-history.com/#HarleyCoops/KimiK2Manim&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=HarleyCoops/KimiK2Manim&type=date&legend=top-left)](https://www.star-history.com/#HarleyCoops/KimiK2Manim&type=date&legend=top-left)
 
 ---
 
