@@ -1,6 +1,5 @@
 # KimiK2Manim
 
-<iframe style="width:100%;height:auto;min-width:600px;min-height:400px;" src="https://www.star-history.com/embed?repo=HarleyCoops/KimiK2Manim&type=date&legend=top-left" frameBorder="0"></iframe>
 
 <div align="center">
 
