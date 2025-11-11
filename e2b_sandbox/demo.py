@@ -40,7 +40,7 @@ async def demo_basic_exploration():
         enrichment=True
     )
 
-    logger.info(f"\n✅ Exploration complete!")
+    logger.info(f"\nExploration complete!")
     logger.info(f"  Concept: {result['concept']}")
     logger.info(f"  Narrative length: {len(result.get('narrative', ''))} chars")
     logger.info(f"  Tree nodes: {count_nodes(result['tree'])}")
@@ -78,7 +78,7 @@ async def demo_visual_reasoning():
     logger.info(f"Running test: {test.name}")
     result = await test.run(explorer, pipeline)
 
-    logger.info(f"\n{'✅ PASSED' if result['passed'] else '❌ FAILED'}")
+    logger.info(f"\n{'PASSED' if result['passed'] else 'FAILED'}")
     logger.info(f"  Found: {len(result['found_elements'])} / {len(result['expected_elements'])} elements")
 
     return result
@@ -108,7 +108,7 @@ async def demo_batch_exploration():
         enrichment=False  # Skip enrichment for faster demo
     )
 
-    logger.info("\n✅ Batch exploration complete!")
+    logger.info("\nBatch exploration complete!")
     for i, result in enumerate(results, 1):
         logger.info(f"  {i}. {result.get('concept', 'Unknown')}")
 
@@ -130,9 +130,9 @@ async def demo_manim_rendering():
     logger.info("Scanning for available Manim scenes...")
     scenes = renderer.list_available_scenes()
 
-    logger.info(f"\n✅ Found {len(scenes)} scene files:")
+    logger.info(f"\nFound {len(scenes)} scene files:")
     for scene in scenes:
-        logger.info(f"  📄 {scene['filename']}")
+        logger.info(f"  {scene['filename']}")
         for class_name in scene['classes']:
             logger.info(f"     - {class_name}")
 
@@ -146,7 +146,7 @@ async def demo_manim_rendering():
     #     )
     #
     #     if result['success']:
-    #         logger.info(f"✅ Render successful: {result['output_file']}")
+    #         logger.info(f"Render successful: {result['output_file']}")
 
     return scenes
 
@@ -160,7 +160,7 @@ def demo_sandbox_tools():
     tools = SandboxTools()
 
     # List outputs
-    logger.info("📁 Listing recent outputs...")
+    logger.info("Listing recent outputs...")
     outputs = tools.list_outputs()
     logger.info(f"  Found {len(outputs)} output files")
 
@@ -168,17 +168,17 @@ def demo_sandbox_tools():
         logger.info(f"    - {output.name}")
 
     # Storage usage
-    logger.info("\n💾 Storage usage:")
+    logger.info("\nStorage usage:")
     storage = tools.get_storage_usage()
     logger.info(f"  Output: {storage['output_dir_mb']:.2f} MB ({storage['output_files']} files)")
     logger.info(f"  Media:  {storage['media_dir_mb']:.2f} MB ({storage['media_files']} files)")
     logger.info(f"  Total:  {storage['total_mb']:.2f} MB")
 
     # Generate report
-    logger.info("\n📊 Generating exploration report...")
+    logger.info("\nGenerating exploration report...")
     report = tools.create_exploration_report()
 
-    logger.info("✅ Tools demo complete!")
+    logger.info("Tools demo complete!")
 
     return storage
 
@@ -192,14 +192,14 @@ async def demo_advanced_features():
     config = setup_sandbox_environment()
 
     # 1. Custom configuration
-    logger.info("\n1️⃣  Custom Configuration")
+    logger.info("\n1. Custom Configuration")
     logger.info(f"  Thinking mode: {config.thinking_mode}")
     logger.info(f"  Max depth: {config.max_depth}")
     logger.info(f"  Use tools: {config.use_tools}")
     logger.info(f"  Sandbox mode: {config.mode.value}")
 
     # 2. Different thinking modes
-    logger.info("\n2️⃣  Thinking Mode Comparison")
+    logger.info("\n2. Thinking Mode Comparison")
     explorer = InteractiveExplorer(config)
 
     concept = "prime numbers"
@@ -215,9 +215,9 @@ async def demo_advanced_features():
             save_output=False
         )
 
-        logger.info(f"    ✓ Completed in {result.get('elapsed_seconds', 0):.1f}s")
+        logger.info(f"    Completed in {result.get('elapsed_seconds', 0):.1f}s")
 
-    logger.info("\n✅ Advanced features demo complete!")
+    logger.info("\nAdvanced features demo complete!")
 
 
 def count_nodes(tree_dict):
@@ -230,7 +230,7 @@ def count_nodes(tree_dict):
 
 async def run_all_demos():
     """Run all demonstration scenarios."""
-    logger.info("🚀 KimiK2Manim E2B Sandbox - Complete Demo")
+    logger.info("KimiK2Manim E2B Sandbox - Complete Demo")
     logger.info("="*60)
     logger.info("This demo will showcase all sandbox capabilities:")
     logger.info("  1. Basic concept exploration")
@@ -242,14 +242,14 @@ async def run_all_demos():
     logger.info("="*60)
 
     # Setup environment
-    logger.info("\n🔧 Setting up environment...")
+    logger.info("\nSetting up environment...")
     config = setup_sandbox_environment()
 
     try:
         validate_sandbox_config(config)
-        logger.info("✅ Configuration validated")
+        logger.info("Configuration validated")
     except ValueError as e:
-        logger.error(f"❌ Configuration error: {e}")
+        logger.error(f"Configuration error: {e}")
         logger.error("Please ensure .env file is configured correctly")
         return
 
@@ -275,12 +275,12 @@ async def run_all_demos():
             results[name] = {"success": True, "result": result}
 
         except Exception as e:
-            logger.error(f"\n❌ Demo '{name}' failed: {e}")
+            logger.error(f"\nDemo '{name}' failed: {e}")
             results[name] = {"success": False, "error": str(e)}
 
     # Final summary
     logger.info("\n" + "="*60)
-    logger.info("🎉 DEMO SUMMARY")
+    logger.info("DEMO SUMMARY")
     logger.info("="*60)
 
     successful = sum(1 for r in results.values() if r.get("success"))
@@ -290,7 +290,7 @@ async def run_all_demos():
     logger.info("\nResults:")
 
     for name, result in results.items():
-        status = "✅" if result.get("success") else "❌"
+        status = "PASS" if result.get("success") else "FAIL"
         logger.info(f"  {status} {name}")
 
     logger.info("\n" + "="*60)

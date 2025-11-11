@@ -2,7 +2,7 @@
 
 This document catalogs interesting use cases, discoveries, and insights from exploring the KimiK2 thinking model in the E2B sandbox environment.
 
-## 🎯 Core Capabilities
+## Core Capabilities
 
 ### 1. Extended Reasoning ("Heavy Thinking" Mode)
 
@@ -56,7 +56,7 @@ Expected elements: wave, sine, cosine, frequency, amplitude, decomposition, harm
 
 **Discovery**: Depth 3 provides the sweet spot for most concepts, capturing essential prerequisites without excessive breadth.
 
-## 🔬 Research Applications
+## Research Applications
 
 ### 1. Educational Content Generation
 
@@ -116,7 +116,7 @@ result = await explorer.explore_concept(
 - Week 3-4: Intermediate (gradient descent, convexity)
 - Week 5-6: Advanced (Adam, RMSprop, second-order methods)
 
-## 🎨 Visual Design Insights
+## Visual Design Insights
 
 ### Color Scheme Patterns
 
@@ -147,7 +147,7 @@ Observed timing patterns from visual specifications:
 | Example | 12-18s | 4s problem statement, 8s solution, 3s result |
 | Transition | 3-5s | Fade/morph between scenes |
 
-## 🧪 Experimental Findings
+## Experimental Findings
 
 ### 1. Thinking Mode Comparison
 
@@ -190,30 +190,30 @@ Sample test run (6 tests, heavy thinking mode):
 
 | Test | Concept | Pass? | Elements Found | Time |
 |------|---------|-------|----------------|------|
-| 1 | Rotation matrices in 3D | ✅ | 7/7 | 4m 23s |
-| 2 | Fourier series | ✅ | 7/7 | 3m 45s |
-| 3 | Riemann sum | ✅ | 6/7 | 4m 01s |
-| 4 | Eigenvalues/eigenvectors | ✅ | 7/7 | 5m 12s |
-| 5 | Complex plane mapping | ✅ | 6/7 | 4m 38s |
-| 6 | Homeomorphism | ⚠️ | 5/7 | 5m 55s |
+| 1 | Rotation matrices in 3D | PASS | 7/7 | 4m 23s |
+| 2 | Fourier series | PASS | 7/7 | 3m 45s |
+| 3 | Riemann sum | PASS | 6/7 | 4m 01s |
+| 4 | Eigenvalues/eigenvectors | PASS | 7/7 | 5m 12s |
+| 5 | Complex plane mapping | PASS | 6/7 | 4m 38s |
+| 6 | Homeomorphism | PARTIAL | 5/7 | 5m 55s |
 
 **Pass Rate**: 83% (5/6 fully passed, 1 partial)
 
 **Key Finding**: Topology concepts (homeomorphism) are harder to visualize automatically - may benefit from domain-specific prompting.
 
-## 🚀 Advanced Use Cases
+## Advanced Use Cases
 
 ### 1. Automated Manim Scene Generation
 
 **Goal**: Full automation from concept → narrative → code → video
 
 **Current Status**:
-- ✅ Concept → Knowledge Tree (Stage 1)
-- ✅ Tree → Mathematical Content (Stage 2)
-- ✅ Content → Visual Specs (Stage 3)
-- ✅ Specs → Narrative (Stage 4)
-- ⚠️ Narrative → Manim Code (manual step)
-- ✅ Code → Video (automated)
+- DONE: Concept → Knowledge Tree (Stage 1)
+- DONE: Tree → Mathematical Content (Stage 2)
+- DONE: Content → Visual Specs (Stage 3)
+- DONE: Specs → Narrative (Stage 4)
+- MANUAL: Narrative → Manim Code (manual step)
+- DONE: Code → Video (automated)
 
 **Next Step**: Train a code generation model on (narrative, manim_code) pairs
 
@@ -259,7 +259,7 @@ common_prereqs = find_common_nodes(physics, ml)
 
 **Application**: Teaching transfer learning between domains
 
-## 📊 Performance Benchmarks
+## Performance Benchmarks
 
 ### API Usage Patterns
 
@@ -298,7 +298,7 @@ Typical API call breakdown for depth-3 exploration with enrichment:
 
 **Note**: Complex scenes with many objects render slower
 
-## 🎓 Lessons Learned
+## Lessons Learned
 
 ### 1. Prompt Engineering
 
@@ -338,7 +338,7 @@ include color-coded harmonics, and LaTeX equations for each component"
 # Speedup: 30-50% for batch explorations
 ```
 
-## 🔮 Future Directions
+## Future Directions
 
 ### 1. Interactive Refinement
 
@@ -371,7 +371,7 @@ Multiple agents collaborate on complex topics:
 # Code agent generates Manim implementation
 ```
 
-## 📝 Summary
+## Summary
 
 The KimiK2 E2B sandbox demonstrates that:
 
@@ -384,7 +384,7 @@ The KimiK2 E2B sandbox demonstrates that:
 
 **Most Exciting Discovery**: KimiK2 develops consistent visual semantics (colors, timing, layout) without explicit training, suggesting emergent understanding of mathematical visualization principles.
 
-## 🤝 Contributing
+## Contributing
 
 Found an interesting use case? Add it to this document!
 

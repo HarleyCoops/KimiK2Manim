@@ -80,7 +80,7 @@ class SandboxTools:
             destination: Destination path
             compress: Whether to compress the file
         """
-        logger.info(f"📤 Exporting: {output_file.name}")
+        logger.info(f"Exporting: {output_file.name}")
 
         if compress:
             # Create tar.gz archive
@@ -90,10 +90,10 @@ class SandboxTools:
             with tarfile.open(archive_name, "w:gz") as tar:
                 tar.add(output_file, arcname=output_file.name)
 
-            logger.info(f"✅ Exported to: {archive_name}")
+            logger.info(f"Exported to: {archive_name}")
         else:
             shutil.copy(output_file, destination)
-            logger.info(f"✅ Exported to: {destination / output_file.name}")
+            logger.info(f"Exported to: {destination / output_file.name}")
 
     def package_exploration(
         self,
@@ -113,7 +113,7 @@ class SandboxTools:
         import tarfile
 
         concept_slug = concept.replace(" ", "_").lower()
-        logger.info(f"📦 Packaging exploration: {concept}")
+        logger.info(f"Packaging exploration: {concept}")
 
         # Find all related files
         json_files = list(self.output_dir.glob(f"{concept_slug}*.json"))
@@ -133,7 +133,7 @@ class SandboxTools:
             for file_path in files_to_package:
                 tar.add(file_path, arcname=file_path.name)
 
-        logger.info(f"✅ Package created: {archive_name}")
+        logger.info(f"Package created: {archive_name}")
         logger.info(f"   Files included: {len(files_to_package)}")
 
         return archive_name
@@ -145,7 +145,7 @@ class SandboxTools:
         Args:
             keep_recent: Number of recent files to keep
         """
-        logger.info(f"🧹 Cleaning up old outputs (keeping {keep_recent} most recent)")
+        logger.info(f"Cleaning up old outputs (keeping {keep_recent} most recent)")
 
         for ext in ["*.json", "*.txt"]:
             files = sorted(
@@ -159,7 +159,7 @@ class SandboxTools:
                 logger.info(f"  Removing: {old_file.name}")
                 old_file.unlink()
 
-        logger.info("✅ Cleanup complete")
+        logger.info("Cleanup complete")
 
     def get_storage_usage(self) -> Dict[str, Any]:
         """Get storage usage statistics for the sandbox."""
@@ -184,7 +184,7 @@ class SandboxTools:
 
     def create_exploration_report(self) -> str:
         """Generate a summary report of all explorations."""
-        logger.info("📊 Generating exploration report")
+        logger.info("Generating exploration report")
 
         json_files = list(self.output_dir.glob("*.json"))
 
@@ -236,7 +236,7 @@ class SandboxTools:
         with open(report_file, "w") as f:
             f.write(report)
 
-        logger.info(f"✅ Report saved: {report_file}")
+        logger.info(f"Report saved: {report_file}")
 
         return report
 
@@ -262,7 +262,7 @@ class SandboxTools:
         if output_file is None:
             output_file = video_file.with_suffix(".gif")
 
-        logger.info(f"🎞️  Converting to GIF: {video_file.name}")
+        logger.info(f"Converting to GIF: {video_file.name}")
 
         cmd = [
             "ffmpeg",
@@ -274,11 +274,11 @@ class SandboxTools:
 
         try:
             subprocess.run(cmd, check=True, capture_output=True)
-            logger.info(f"✅ GIF created: {output_file}")
+            logger.info(f"GIF created: {output_file}")
             return output_file
 
         except subprocess.CalledProcessError as e:
-            logger.error(f"❌ GIF conversion failed: {e.stderr}")
+            logger.error(f"GIF conversion failed: {e.stderr}")
             raise
 
     def interactive_menu(self):
@@ -300,14 +300,14 @@ class SandboxTools:
 
             if choice == "1":
                 outputs = self.list_outputs()
-                print(f"\n📁 Found {len(outputs)} outputs:")
+                print(f"\nFound {len(outputs)} outputs:")
                 for output in outputs[:20]:  # Show first 20
                     print(f"  - {output.name}")
 
             elif choice == "2":
                 latest = self.get_latest_output()
                 if latest:
-                    print(f"\n📄 Latest output: {latest.name}")
+                    print(f"\nLatest output: {latest.name}")
                     if latest.suffix == ".json":
                         data = self.read_json_output(latest)
                         print(json.dumps(data, indent=2)[:500] + "...")
@@ -320,7 +320,7 @@ class SandboxTools:
 
             elif choice == "4":
                 storage = self.get_storage_usage()
-                print(f"\n💾 Storage Usage:")
+                print(f"\nStorage Usage:")
                 print(f"  Output: {storage['output_dir_mb']:.2f} MB")
                 print(f"  Media: {storage['media_dir_mb']:.2f} MB")
                 print(f"  Total: {storage['total_mb']:.2f} MB")
@@ -329,7 +329,7 @@ class SandboxTools:
                 concept = input("Enter concept name: ").strip()
                 if concept:
                     package = self.package_exploration(concept)
-                    print(f"✅ Package created: {package}")
+                    print(f"Package created: {package}")
 
             elif choice == "6":
                 keep = input("Keep how many recent files? (default: 10): ").strip()
@@ -337,11 +337,11 @@ class SandboxTools:
                 self.cleanup_old_outputs(keep)
 
             elif choice == "7":
-                print("👋 Goodbye!")
+                print("Goodbye!")
                 break
 
             else:
-                print("❌ Invalid option")
+                print("Invalid option")
 
 
 def main():

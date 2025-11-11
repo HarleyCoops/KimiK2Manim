@@ -52,7 +52,7 @@ class ManimRenderer:
         quality = quality or self.config.manim_quality
         start_time = datetime.now()
 
-        logger.info(f"🎬 Rendering Manim scene")
+        logger.info(f"Rendering Manim scene")
         logger.info(f"  File: {scene_file.name}")
         logger.info(f"  Class: {scene_class}")
         logger.info(f"  Quality: {quality}")
@@ -71,7 +71,7 @@ class ManimRenderer:
         if output_name:
             cmd.extend(["-o", output_name])
 
-        logger.info(f"📝 Command: {' '.join(cmd)}")
+        logger.info(f"Command: {' '.join(cmd)}")
 
         try:
             # Run manim command
@@ -86,7 +86,7 @@ class ManimRenderer:
             elapsed = (datetime.now() - start_time).total_seconds()
 
             if result.returncode == 0:
-                logger.info(f"✅ Render complete in {elapsed:.1f}s")
+                logger.info(f"Render complete in {elapsed:.1f}s")
 
                 # Find output file
                 output_file = self._find_output_file(scene_file, scene_class, quality)
@@ -103,12 +103,12 @@ class ManimRenderer:
                 }
 
                 if output_file:
-                    logger.info(f"📹 Output: {output_file}")
+                    logger.info(f"Output: {output_file}")
 
                 self.render_history.append(render_info)
                 return render_info
             else:
-                logger.error(f"❌ Render failed")
+                logger.error(f"Render failed")
                 logger.error(f"Error: {result.stderr}")
 
                 render_info = {
@@ -124,7 +124,7 @@ class ManimRenderer:
                 return render_info
 
         except subprocess.TimeoutExpired:
-            logger.error(f"❌ Render timed out after {self.config.max_render_time}s")
+            logger.error(f"Render timed out after {self.config.max_render_time}s")
             return {
                 "success": False,
                 "error": f"Timeout after {self.config.max_render_time}s",
@@ -133,7 +133,7 @@ class ManimRenderer:
             }
 
         except Exception as e:
-            logger.error(f"❌ Render failed with error: {e}")
+            logger.error(f"Render failed with error: {e}")
             return {
                 "success": False,
                 "error": str(e),
@@ -189,20 +189,20 @@ class ManimRenderer:
         Returns:
             Dictionary containing render information
         """
-        logger.info(f"🎨 Generating Manim code from narrative")
+        logger.info(f"Generating Manim code from narrative")
         logger.info(f"  Concept: {concept_name}")
         logger.info(f"  Narrative length: {len(narrative)} chars")
 
         if generate_code:
-            logger.warning("⚠️  Automatic code generation not yet implemented")
-            logger.info("💡 Use the narrative as a prompt for manual scene creation")
+            logger.warning("Automatic code generation not yet implemented")
+            logger.info("Use the narrative as a prompt for manual scene creation")
 
         # For now, save the narrative for manual implementation
         narrative_file = Path(self.config.output_dir) / f"{concept_name}_narrative.txt"
         with open(narrative_file, "w") as f:
             f.write(narrative)
 
-        logger.info(f"📝 Narrative saved: {narrative_file}")
+        logger.info(f"Narrative saved: {narrative_file}")
 
         return {
             "narrative_file": str(narrative_file),
@@ -228,7 +228,7 @@ class ManimRenderer:
         if scenes_dir is None:
             scenes_dir = Path(__file__).parent.parent / "manim_scenes"
 
-        logger.info(f"🔍 Scanning for Manim scenes in: {scenes_dir}")
+        logger.info(f"Scanning for Manim scenes in: {scenes_dir}")
 
         scenes = []
 
@@ -246,7 +246,7 @@ class ManimRenderer:
             if scene_info["classes"]:
                 scenes.append(scene_info)
 
-        logger.info(f"✅ Found {len(scenes)} scene files")
+        logger.info(f"Found {len(scenes)} scene files")
         return scenes
 
     def _extract_scene_classes(self, file_path: Path) -> List[str]:
@@ -281,7 +281,7 @@ class ManimRenderer:
         Returns:
             List of render results
         """
-        logger.info(f"🚀 Batch rendering {len(scenes)} scenes")
+        logger.info(f"Batch rendering {len(scenes)} scenes")
 
         results = []
         for scene_file, scene_class in scenes:
@@ -296,7 +296,7 @@ class ManimRenderer:
         successful = sum(1 for r in results if r.get("success"))
         failed = len(results) - successful
 
-        logger.info(f"\n📊 Batch render complete")
+        logger.info(f"\nBatch render complete")
         logger.info(f"  Successful: {successful}")
         logger.info(f"  Failed: {failed}")
 
@@ -309,14 +309,14 @@ class ManimRenderer:
         with open(history_file, "w") as f:
             json.dump(self.render_history, f, indent=2)
 
-        logger.info(f"💾 Render history saved: {history_file}")
+        logger.info(f"Render history saved: {history_file}")
 
 
 async def main():
     """Demo the Manim renderer."""
     from e2b_sandbox.sandbox_config import setup_sandbox_environment
 
-    logger.info("🎬 Manim Renderer Demo")
+    logger.info("Manim Renderer Demo")
     logger.info("="*60)
 
     config = setup_sandbox_environment()
@@ -325,9 +325,9 @@ async def main():
     # List available scenes
     scenes = renderer.list_available_scenes()
 
-    logger.info("\n📋 Available scenes:")
+    logger.info("\nAvailable scenes:")
     for scene in scenes:
-        logger.info(f"\n  📄 {scene['filename']}")
+        logger.info(f"\n  {scene['filename']}")
         for class_name in scene['classes']:
             logger.info(f"    - {class_name}")
 
@@ -335,14 +335,14 @@ async def main():
     if scenes:
         example_scene = scenes[0]
         if example_scene['classes']:
-            logger.info(f"\n🎬 Rendering example scene...")
+            logger.info(f"\nRendering example scene...")
             result = renderer.render_scene(
                 scene_file=Path(example_scene['file']),
                 scene_class=example_scene['classes'][0],
                 quality='l'  # Low quality for faster demo
             )
 
-            logger.info("\n✅ Demo complete!")
+            logger.info("\nDemo complete!")
 
     renderer.save_render_history()
 

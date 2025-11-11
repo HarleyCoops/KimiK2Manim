@@ -53,14 +53,14 @@ class InteractiveExplorer:
         Returns:
             Dictionary containing the exploration results
         """
-        logger.info(f"🔍 Exploring concept: {concept}")
-        logger.info(f"📊 Mode: {self.config.thinking_mode} thinking")
-        logger.info(f"🌳 Max depth: {depth or self.config.max_depth}")
+        logger.info(f"Exploring concept: {concept}")
+        logger.info(f"Mode: {self.config.thinking_mode} thinking")
+        logger.info(f"Max depth: {depth or self.config.max_depth}")
 
         start_time = datetime.now()
 
         # Step 1: Explore prerequisites
-        logger.info("📖 Stage 1: Building knowledge tree...")
+        logger.info("Stage 1: Building knowledge tree...")
         tree = await self.explorer.explore_async(
             concept=concept,
             depth=depth or self.config.max_depth,
@@ -78,7 +78,7 @@ class InteractiveExplorer:
 
         # Step 2: Enrichment pipeline (optional)
         if enrichment:
-            logger.info("🎨 Running enrichment pipeline...")
+            logger.info("Running enrichment pipeline...")
             logger.info("  Stage 2: Mathematical enrichment")
             logger.info("  Stage 3: Visual design")
             logger.info("  Stage 4: Narrative composition")
@@ -94,7 +94,7 @@ class InteractiveExplorer:
             await self._save_results(result)
 
         elapsed = (datetime.now() - start_time).total_seconds()
-        logger.info(f"✅ Exploration complete in {elapsed:.1f}s")
+        logger.info(f"Exploration complete in {elapsed:.1f}s")
 
         # Add to session history
         self.session_history.append({
@@ -121,7 +121,7 @@ class InteractiveExplorer:
         Returns:
             List of exploration results
         """
-        logger.info(f"🚀 Batch exploration: {len(concepts)} concepts")
+        logger.info(f"Batch exploration: {len(concepts)} concepts")
 
         results = []
         for i, concept in enumerate(concepts, 1):
@@ -137,7 +137,7 @@ class InteractiveExplorer:
                 )
                 results.append(result)
             except Exception as e:
-                logger.error(f"❌ Failed to explore '{concept}': {e}")
+                logger.error(f"Failed to explore '{concept}': {e}")
                 results.append({
                     "concept": concept,
                     "error": str(e),
@@ -180,19 +180,19 @@ class InteractiveExplorer:
         json_path = Path(self.config.output_dir) / f"{concept_slug}_{timestamp}.json"
         with open(json_path, "w", encoding="utf-8") as f:
             json.dump(result, f, indent=2, ensure_ascii=False)
-        logger.info(f"💾 Saved JSON: {json_path}")
+        logger.info(f"Saved JSON: {json_path}")
 
         # Save narrative if present
         if result.get("narrative"):
             narrative_path = Path(self.config.output_dir) / f"{concept_slug}_{timestamp}_narrative.txt"
             with open(narrative_path, "w", encoding="utf-8") as f:
                 f.write(result["narrative"])
-            logger.info(f"📝 Saved narrative: {narrative_path}")
+            logger.info(f"Saved narrative: {narrative_path}")
 
     def print_summary(self):
         """Print session summary."""
         logger.info("\n" + "="*60)
-        logger.info("📊 SESSION SUMMARY")
+        logger.info("SESSION SUMMARY")
         logger.info("="*60)
         logger.info(f"Total concepts explored: {len(self.session_history)}")
 
@@ -204,20 +204,20 @@ class InteractiveExplorer:
 
         logger.info("\nConcepts explored:")
         for i, item in enumerate(self.session_history, 1):
-            status = "🎨 Enriched" if item["enriched"] else "🌳 Tree only"
+            status = "Enriched" if item["enriched"] else "Tree only"
             logger.info(f"  {i}. {item['concept']} - {status} ({item['elapsed_seconds']:.1f}s)")
 
 
 async def main():
     """Main entry point for interactive exploration."""
-    logger.info("🚀 KimiK2 Interactive Explorer - E2B Sandbox Edition")
+    logger.info("KimiK2 Interactive Explorer - E2B Sandbox Edition")
     logger.info("="*60)
 
     # Setup sandbox environment
     config = setup_sandbox_environment()
     validate_sandbox_config(config)
 
-    logger.info(f"✅ Configuration loaded")
+    logger.info(f"Configuration loaded")
     logger.info(f"  Model: {config.model}")
     logger.info(f"  Thinking mode: {config.thinking_mode}")
     logger.info(f"  Max depth: {config.max_depth}")
@@ -235,13 +235,13 @@ async def main():
         "general relativity",
     ]
 
-    logger.info(f"\n🎯 Ready to explore! Example concepts:")
+    logger.info(f"\nReady to explore! Example concepts:")
     for i, concept in enumerate(interesting_concepts, 1):
         logger.info(f"  {i}. {concept}")
 
     # For demonstration, explore one concept with full enrichment
     demo_concept = "fourier transform"
-    logger.info(f"\n🎬 Starting demo exploration: {demo_concept}")
+    logger.info(f"\nStarting demo exploration: {demo_concept}")
 
     result = await explorer.explore_concept(
         concept=demo_concept,
@@ -253,8 +253,8 @@ async def main():
     # Print summary
     explorer.print_summary()
 
-    logger.info("\n✨ Exploration complete! Check the output directory for results.")
-    logger.info(f"📁 Output directory: {config.output_dir}")
+    logger.info("\nExploration complete! Check the output directory for results.")
+    logger.info(f"Output directory: {config.output_dir}")
 
     return result
 

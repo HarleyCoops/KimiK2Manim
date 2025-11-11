@@ -41,20 +41,20 @@ class VisualReasoningTest:
     async def run(self, explorer: KimiPrerequisiteExplorer, pipeline: KimiEnrichmentPipeline) -> Dict:
         """Run the test case."""
         logger.info(f"\n{'='*60}")
-        logger.info(f"🧪 Test: {self.name}")
-        logger.info(f"📝 Description: {self.description}")
-        logger.info(f"🎯 Concept: {self.concept}")
+        logger.info(f"Test: {self.name}")
+        logger.info(f"Description: {self.description}")
+        logger.info(f"Concept: {self.concept}")
         logger.info(f"{'='*60}\n")
 
         start_time = datetime.now()
 
         try:
             # Step 1: Explore prerequisites
-            logger.info("📖 Building knowledge tree...")
+            logger.info("Building knowledge tree...")
             tree = await explorer.explore_async(self.concept, depth=2, verbose=True)
 
             # Step 2: Run enrichment pipeline
-            logger.info("🎨 Running enrichment pipeline...")
+            logger.info("Running enrichment pipeline...")
             enrichment_result = await pipeline.run_async(tree)
 
             # Step 3: Analyze visual specifications
@@ -81,7 +81,7 @@ class VisualReasoningTest:
             }
 
             # Log results
-            status = "✅ PASSED" if self.passed else "❌ FAILED"
+            status = "PASSED" if self.passed else "FAILED"
             logger.info(f"\n{status} - {self.name}")
             logger.info(f"  Found: {len(found_elements)}/{len(self.expected_visual_elements)} expected elements")
             logger.info(f"  Time: {elapsed:.1f}s")
@@ -89,7 +89,7 @@ class VisualReasoningTest:
             return self.result
 
         except Exception as e:
-            logger.error(f"❌ Test failed with error: {e}")
+            logger.error(f"Test failed with error: {e}")
             self.result = {
                 "name": self.name,
                 "concept": self.concept,
@@ -210,7 +210,7 @@ async def run_visual_reasoning_suite(config: SandboxConfig) -> Dict:
     Returns:
         Dictionary containing test suite results
     """
-    logger.info("🎨 KIMIK2 VISUAL REASONING TEST SUITE")
+    logger.info("KIMIK2 VISUAL REASONING TEST SUITE")
     logger.info("="*60)
     logger.info(f"Total tests: {len(VISUAL_REASONING_TESTS)}")
     logger.info(f"Thinking mode: {config.thinking_mode}")
@@ -241,18 +241,18 @@ async def run_visual_reasoning_suite(config: SandboxConfig) -> Dict:
 
     # Print summary
     logger.info("\n" + "="*60)
-    logger.info("📊 TEST SUITE SUMMARY")
+    logger.info("TEST SUITE SUMMARY")
     logger.info("="*60)
     logger.info(f"Total tests: {len(results)}")
-    logger.info(f"Passed: {passed} ✅")
-    logger.info(f"Failed: {failed} ❌")
+    logger.info(f"Passed: {passed}")
+    logger.info(f"Failed: {failed}")
     logger.info(f"Pass rate: {pass_rate:.1f}%")
     logger.info(f"Total time: {elapsed:.1f}s")
     logger.info(f"Average time per test: {elapsed/len(results):.1f}s")
 
-    logger.info("\n📋 Individual Results:")
+    logger.info("\nIndividual Results:")
     for result in results:
-        status = "✅" if result.get("passed") else "❌"
+        status = "PASS" if result.get("passed") else "FAIL"
         logger.info(f"  {status} {result['name']}")
 
     summary = {
@@ -272,7 +272,7 @@ async def run_visual_reasoning_suite(config: SandboxConfig) -> Dict:
     with open(output_path, "w") as f:
         json.dump(summary, f, indent=2)
 
-    logger.info(f"\n💾 Results saved to: {output_path}")
+    logger.info(f"\nResults saved to: {output_path}")
 
     return summary
 

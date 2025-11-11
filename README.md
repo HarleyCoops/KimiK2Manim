@@ -804,7 +804,7 @@ See `docs/ARCHITECTURE.md` for detailed architecture documentation.
 
 ## E2B Sandbox Environment
 
-### 🎮 Interactive Exploration Sandbox
+### Interactive Exploration Sandbox
 
 The `e2b_sandbox/` directory provides a complete, self-contained sandbox environment for exploring KimiK2 thinking capabilities, testing visual reasoning, and generating Manim animations. This is ideal for:
 
@@ -836,7 +836,7 @@ python demo.py --demo all
 
 ### Features
 
-#### 🔍 Interactive Explorer
+#### Interactive Explorer
 Explore concepts with customizable depth and thinking modes:
 
 ```python
@@ -850,7 +850,7 @@ result = await quick_explore(
 )
 ```
 
-#### 🧪 Visual Reasoning Tests
+#### Visual Reasoning Tests
 Automated test suite for validating visual reasoning capabilities:
 
 - Geometric transformations
@@ -867,7 +867,7 @@ results = await run_visual_tests()
 print(f"Pass rate: {results['pass_rate']}%")
 ```
 
-#### 🎬 Manim Renderer
+#### Manim Renderer
 Render Manim scenes with quality presets:
 
 ```python
@@ -883,7 +883,7 @@ renderer.render_scene(
 )
 ```
 
-#### 🛠️ Sandbox Tools
+#### Sandbox Tools
 Utilities for managing explorations:
 
 ```python

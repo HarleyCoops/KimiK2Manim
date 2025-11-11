@@ -2,7 +2,7 @@
 
 A self-contained sandbox environment for exploring KimiK2 thinking capabilities, visual reasoning, and Manim animation generation.
 
-## 🎯 Overview
+## Overview
 
 This E2B sandbox provides a complete, interactive environment for:
 
@@ -12,7 +12,7 @@ This E2B sandbox provides a complete, interactive environment for:
 - **Pipeline Testing**: Validate the complete 4-stage enrichment pipeline
 - **Interactive Tools**: CLI utilities for managing explorations and outputs
 
-## 🏗️ Architecture
+## Architecture
 
 ### The KimiK2 Pipeline
 
@@ -48,7 +48,7 @@ Narrative + Enriched Tree
 - **`e2b.Dockerfile`**: Container configuration for E2B
 - **`setup.sh`**: Automated setup script
 
-## 🚀 Quick Start
+## Quick Start
 
 ### 1. Setup
 
@@ -131,7 +131,7 @@ Available tools:
 - Clean up old outputs
 - Convert videos to GIFs
 
-## 📋 Configuration
+## Configuration
 
 ### Environment Variables
 
@@ -164,7 +164,7 @@ config = SandboxConfig(
 )
 ```
 
-## 🎨 Usage Examples
+## Usage Examples
 
 ### Example 1: Explore a Single Concept
 
@@ -229,7 +229,7 @@ test = VisualReasoningTest(
 result = await test.run(explorer, pipeline)
 ```
 
-## 📂 Output Structure
+## Output Structure
 
 ```
 output/
@@ -248,7 +248,7 @@ media/
             └── ArtisticRhombicosidodecahedron.mp4
 ```
 
-## 🧪 Visual Reasoning Tests
+## Visual Reasoning Tests
 
 The test suite includes 6 comprehensive tests:
 
@@ -265,7 +265,7 @@ Each test:
 - Validates visual specifications
 - Reports pass/fail based on expected visual elements
 
-## 🔧 Advanced Features
+## Advanced Features
 
 ### Custom Thinking Modes
 
@@ -301,7 +301,7 @@ scenes = [
 results = renderer.batch_render(scenes, quality="h")
 ```
 
-## 🐳 Docker / E2B Deployment
+## Docker / E2B Deployment
 
 ### Build the E2B Container
 
@@ -326,7 +326,7 @@ docker run -it \
 3. Launch sandbox instances via E2B API
 4. Access outputs through E2B file system API
 
-## 📊 Performance Considerations
+## Performance Considerations
 
 ### Thinking Mode Impact
 
@@ -344,7 +344,7 @@ docker run -it \
 | 3-4   | Medium    | ~5min | Standard depth |
 | 5+    | Large     | 10min+ | Comprehensive research |
 
-## 🎯 Use Cases
+## Use Cases
 
 ### 1. Educational Content Generation
 
@@ -395,7 +395,7 @@ results = await explorer.batch_explore(concepts, enrichment=False)
 # Analyze prerequisite relationships
 ```
 
-## 🛠️ Troubleshooting
+## Troubleshooting
 
 ### API Key Issues
 
@@ -429,14 +429,14 @@ Error: Timeout after 300s
 
 Solution: Increase `MAX_RENDER_TIME` in `.env`
 
-## 📚 Additional Resources
+## Additional Resources
 
 - [KimiK2 Documentation](https://platform.moonshot.ai/docs)
 - [Manim Documentation](https://docs.manim.community/)
 - [E2B Documentation](https://e2b.dev/docs)
 - [Project Repository](https://github.com/HarleyCoops/KimiK2Manim)
 
-## 🤝 Contributing
+## Contributing
 
 Contributions welcome! Areas of interest:
 
@@ -446,10 +446,10 @@ Contributions welcome! Areas of interest:
 - Performance optimizations
 - Documentation improvements
 
-## 📄 License
+## License
 
 See main project LICENSE file.
 
-## 🎉 Happy Exploring!
+## Happy Exploring!
 
 The sandbox is designed to be a playground for exploring the intersection of AI reasoning, mathematical visualization, and educational content generation. Experiment with different concepts, thinking modes, and visual styles to discover what KimiK2 can create!
