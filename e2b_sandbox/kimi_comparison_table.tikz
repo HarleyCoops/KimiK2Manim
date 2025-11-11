@@ -1,0 +1,41 @@
+% TikZ Diagram: Comparison Table - API Client vs Local Model
+
+\documentclass[tikz,border=10pt]{standalone}
+\usepackage{tikz}
+\usetikzlibrary{matrix,positioning}
+
+\begin{document}
+\begin{tikzpicture}[
+    every node/.style={font=\small},
+    header/.style={font=\bfseries, fill=blue!30},
+    api/.style={fill=green!20},
+    local/.style={fill=orange!20}
+]
+
+% Create comparison table
+\matrix[matrix of nodes,
+    row sep=0.5cm,
+    column sep=0.3cm,
+    nodes={rectangle, draw=black, minimum width=3cm, minimum height=0.8cm, align=center},
+    row 1/.style={header},
+    column 1/.style={header, minimum width=2.5cm},
+    column 2/.style={api},
+    column 3/.style={local}
+] (table) {
+    \textbf{Aspect} & \textbf{API Client (Kimi)} & \textbf{Local Model} \\
+    Model Weights & 0 GB (on server) & 10-100+ GB \\
+    Download Required & No & Yes \\
+    Setup Time & Instant & Hours/Days \\
+    Storage Needed & ~1 MB (client code) & 10-100+ GB \\
+    GPU Required & No (on your side) & Yes \\
+    Cost per Request & Pay per token & Free (after setup) \\
+    Scalability & Automatic & Limited by hardware \\
+    Updates & Automatic & Manual \\
+};
+
+% Title
+\node[above=0.5cm of table, font=\Large\bfseries] {API Client vs Local Model Comparison};
+
+\end{tikzpicture}
+\end{document}
+

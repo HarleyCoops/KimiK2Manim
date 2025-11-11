@@ -1,0 +1,96 @@
+% TikZ Diagram: Kimi API Architecture - How Instances Work Without Model Weights
+% Shows the flow from E2B Sandbox to Moonshot AI servers
+
+\documentclass[tikz,border=10pt]{standalone}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning,fit,backgrounds,decorations.pathreplacing,calc}
+
+\begin{document}
+\begin{tikzpicture}[
+    % Node styles
+    sandbox/.style={rectangle, rounded corners, minimum width=5cm, minimum height=3cm,
+                    text centered, draw=black, fill=blue!20, font=\small, align=center},
+    code/.style={rectangle, rounded corners, minimum width=4cm, minimum height=2cm,
+                 text centered, draw=black, fill=blue!30, font=\tiny, align=left},
+    server/.style={rectangle, rounded corners, minimum width=5cm, minimum height=3cm,
+                   text centered, draw=black, fill=green!20, font=\small, align=center},
+    model/.style={rectangle, rounded corners, minimum width=4cm, minimum height=2.5cm,
+                  text centered, draw=black, fill=green!30, font=\tiny, align=left},
+    arrow/.style={->, >=stealth, thick, color=black},
+    label/.style={font=\tiny, color=darkgray, align=center},
+    internet/.style={ellipse, draw=gray!50, fill=gray!10, minimum width=2cm, minimum height=1cm}
+]
+
+% E2B Sandbox (left side)
+\node[sandbox] (sandbox) at (-6,0) {
+    \textbf{E2B Sandbox}\\
+    \textit{(Cloud Container)}
+};
+
+\node[code, below=0.5cm of sandbox] (python) {
+    \textbf{Python Code}\\
+    \texttt{client = KimiClient()}\\
+    \texttt{response = client.chat\_completion(...)}
+};
+
+\node[code, below=0.3cm of python] (client) {
+    \textbf{KimiClient Object}\\
+    • api\_key: string\\
+    • base\_url: string\\
+    • model: string\\
+    • client: HTTP client\\
+    \textit{Memory: ~48 bytes}
+};
+
+% Internet/Network (middle)
+\node[internet] (internet) at (0,0) {
+    \textbf{Internet}
+};
+
+% Moonshot Servers (right side)
+\node[server] (moonshot) at (6,0) {
+    \textbf{Moonshot AI Servers}\\
+    \textit{api.moonshot.ai}
+};
+
+\node[model, below=0.5cm of moonshot] (weights) {
+    \textbf{Kimi K2 Model}\\
+    • Billions of parameters\\
+    • Stored on GPU clusters\\
+    • Already loaded in memory\\
+    • Processes requests\\
+    \textit{Size: 10-100+ GB}
+};
+
+% Request flow (upward)
+\draw[arrow, color=blue, very thick] (python) -- node[above, font=\tiny] {HTTP POST Request\\JSON payload\\~200 bytes} (internet);
+\draw[arrow, color=blue, very thick] (internet) -- node[above, font=\tiny] {HTTPS Request} (moonshot);
+
+% Response flow (downward)
+\draw[arrow, color=green, very thick] (moonshot) -- node[below, font=\tiny] {HTTP Response\\JSON with text\\~500 bytes} (internet);
+\draw[arrow, color=green, very thick] (internet) -- node[below, font=\tiny] {HTTPS Response} (python);
+
+% Model processing
+\draw[arrow, color=red, dashed] (moonshot) -- (weights);
+\draw[arrow, color=red, dashed] (weights) -- (moonshot);
+
+% Labels
+\node[above=0.2cm of sandbox, font=\small\bfseries] {Your Environment};
+\node[above=0.2cm of moonshot, font=\small\bfseries] {Model Host};
+
+% Background boxes
+\begin{scope}[on background layer]
+    \node[fill=blue!5, rounded corners, fit=(sandbox) (python) (client), inner sep=5pt] {};
+    \node[fill=green!5, rounded corners, fit=(moonshot) (weights), inner sep=5pt] {};
+\end{scope}
+
+% Key point annotation
+\node[below=1.5cm of internet, font=\small\bfseries, text width=8cm, align=center] (keypoint) {
+    \textbf{Key Point:}\\
+    Model weights (10-100+ GB) never leave Moonshot servers.\\
+    Only small JSON requests/responses (~1 KB) are transferred.
+};
+
+\end{tikzpicture}
+\end{document}
+
