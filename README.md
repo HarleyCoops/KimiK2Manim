@@ -544,6 +544,101 @@ ffmpeg -i media/videos/SlowFastNetwork/480p15/SlowFastNetworkPhD.mp4 -vf "fps=10
 
 **Reference**: [The 1991 Unnormalized Linear Transformer (ULTRA)](https://people.idsia.ch/~juergen/1991-unnormalized-linear-transformer.html) by Jürgen Schmidhuber ([@SchmidhuberAI](https://twitter.com/SchmidhuberAI))
 
+### Brownian Motion and Einstein's Heat Equation Animation
+
+A comprehensive 2-minute educational animation demonstrating Brownian motion and its connection to Einstein's diffusion equation and heat equation.
+
+**Mathematical Concepts**:
+- Random walk theory and mean squared displacement: `⟨x²(t)⟩ = 2Dt`
+- Diffusion equation: `∂P/∂t = D∇²P`
+- Einstein's relation: `D = k_B T / (6πηa)`
+- Connection to heat equation: `∂u/∂t = α∇²u`
+
+#### Scene Versions
+
+The Brownian Motion project includes three scene implementations demonstrating different approaches:
+
+1. **`brownian_motion_scene.py`** - Original unbounded scene
+   - Basic implementation without frame boundary constraints
+   - Manual text/equation management
+   - Demonstrates the core concepts
+
+2. **`brownian_motion_bounded.py`** - Bounded scene with frame constraints
+   - Uses `BoundedScene` base class
+   - All content automatically constrained within safe frame boundaries
+   - Prevents content from rendering outside visible area
+   - See [`manim_utils/README_BOUNDED_SCENE.md`](manim_utils/README_BOUNDED_SCENE.md) for details
+
+3. **`brownian_motion_managed.py`** - Complete managed scene (Recommended)
+   - Uses `ManagedBoundedScene` with both boundary constraints and scene management
+   - Automatic text/equation lifecycle management
+   - Prevents overlaps through zone-based positioning
+   - Clean section transitions
+   - See [`manim_utils/README_SCENE_MANAGEMENT.md`](manim_utils/README_SCENE_MANAGEMENT.md) for details
+
+#### Animation Structure (120 seconds)
+
+1. **Introduction (0-15s)**: Title and historical context
+2. **Microscopic View (15-45s)**: Pollen grains and water molecules with Brownian motion
+3. **Random Walk Analysis (45-70s)**: Trajectory visualization and mean squared displacement
+4. **Diffusion Equation (70-95s)**: PDE derivation and Gaussian solution
+5. **Einstein's Relation (95-115s)**: Stokes-Einstein formula and heat equation connection
+6. **Conclusion (115-120s)**: Summary message
+
+#### Visual Design Features
+
+- **200 water molecules** (blue dots) moving randomly
+- **5 pollen grains** (golden spheres) with colored trajectory trails
+- **Animated random walk** trajectory
+- **Mean squared displacement** graph showing linear growth
+- **Gaussian probability distributions** spreading over time
+- **LaTeX equations** with proper formatting
+- **Zone-based text layout** preventing overlaps
+
+#### Rendering the Animation
+
+```bash
+# Recommended: Managed scene with automatic constraints
+python -m manim -pql BrownianMotion/brownian_motion_managed.py BrownianMotionManaged
+
+# Bounded scene (frame constraints only)
+python -m manim -pql BrownianMotion/brownian_motion_bounded.py BrownianMotionBounded
+
+# Original scene (no constraints)
+python -m manim -pql BrownianMotion/brownian_motion_scene.py BrownianMotionAndEinsteinHeatEquation
+
+# High quality render
+python -m manim -pqh BrownianMotion/brownian_motion_managed.py BrownianMotionManaged
+```
+
+#### Pipeline Integration
+
+The Brownian Motion scene was generated using the full KimiK2Manim pipeline:
+
+1. **Prerequisite Exploration**: Built knowledge tree from "Brownian Motion and Einstein's Heat Equation"
+2. **Mathematical Enrichment**: Added equations, definitions, and interpretations
+3. **Visual Design**: Created visual specifications for each concept
+4. **Narrative Composition**: Generated verbose animation prompt
+
+The enriched JSON output (`BrownianMotion/output/Brownian_Motion_and_Einstein's_Heat_Equation_enriched.json`) contains:
+- Complete knowledge tree with prerequisites
+- LaTeX equations for all concepts
+- Visual specifications (colors, animations, timing)
+- Narrative prompt (2000+ words)
+
+See [`BrownianMotion/README.md`](BrownianMotion/README.md) for complete documentation.
+
+#### Frame Boundary Solution
+
+The Brownian Motion scenes demonstrate solutions to universal Manim rendering issues:
+
+- **Frame Boundaries**: `BoundedScene` ensures all content stays within safe frame area (12.78 × 7.2 units)
+- **Text Overlaps**: `ManagedBoundedScene` automatically manages text/equation lifecycle
+- **Zone-Based Layout**: Different content types positioned in separate vertical zones
+- **Automatic Cleanup**: Old content fades out when new content is added
+
+See [`manim_utils/README_BOUNDED_SCENE.md`](manim_utils/README_BOUNDED_SCENE.md) and [`manim_utils/README_SCENE_MANAGEMENT.md`](manim_utils/README_SCENE_MANAGEMENT.md) for implementation details.
+
 ### Harmonic Division Theorem Animation
 
 <div align="center">
@@ -627,6 +722,25 @@ KimiK2Manim/
 │   ├── enhance_rhombicosidodecahedron.py
 │   ├── kimi2pythag.py
 │   └── Kimik2First.py
+│
+├── BrownianMotion/             # Brownian Motion example project
+│   ├── README.md              # Project documentation
+│   ├── run_pipeline.py        # Pipeline execution script
+│   ├── brownian_motion_scene.py        # Original unbounded scene
+│   ├── brownian_motion_bounded.py      # Bounded scene (frame constraints)
+│   ├── brownian_motion_managed.py      # Managed scene (recommended)
+│   └── output/                # Generated enriched content
+│       ├── Brownian_Motion_and_Einstein's_Heat_Equation_enriched.json
+│       ├── Brownian_Motion_and_Einstein's_Heat_Equation_narrative.txt
+│       └── Brownian_Motion_and_Einstein's_Heat_Equation_prerequisite_tree.json
+│
+├── manim_utils/                # Manim utility modules
+│   ├── bounded_scene.py       # Frame boundary constraints
+│   ├── scene_manager.py       # Scene management system
+│   ├── managed_scene.py       # Combined managed scene class
+│   ├── frame_config.py        # Frame configuration constants
+│   ├── README_BOUNDED_SCENE.md
+│   └── README_SCENE_MANAGEMENT.md
 │
 ├── examples/                    # Example usage and test scripts
 │   ├── test_kimi_integration.py
