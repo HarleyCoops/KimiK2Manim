@@ -539,8 +539,17 @@ class KimiNarrativeComposer:
         payload = _extract_tool_payload(response)
         if payload is None:
             payload = _parse_json_fallback(self.client.get_text_content(response)) or {}
-
+        
+        # If payload extraction failed, check if text content itself is the narrative
+        # (sometimes models return text instead of tool calls)
         verbose_prompt = payload.get("verbose_prompt", "")
+        if not verbose_prompt:
+            text_content = self.client.get_text_content(response)
+            if text_content and len(text_content) > 100:  # Reasonable narrative length
+                # Model returned narrative as plain text instead of tool call
+                verbose_prompt = text_content
+                self.logger.warning("Narrative returned as plain text, not tool call. Using text content.")
+        
         total_duration = payload.get("total_duration", total_duration)
         scene_count = payload.get("scene_count", len(ordered_nodes))
         concept_order = payload.get("concept_order", concept_order)
