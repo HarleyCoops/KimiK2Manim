@@ -802,6 +802,176 @@ Each agent processes the entire tree recursively, ensuring all nodes (including 
 
 See `docs/ARCHITECTURE.md` for detailed architecture documentation.
 
+## E2B Sandbox Environment
+
+### 🎮 Interactive Exploration Sandbox
+
+The `e2b_sandbox/` directory provides a complete, self-contained sandbox environment for exploring KimiK2 thinking capabilities, testing visual reasoning, and generating Manim animations. This is ideal for:
+
+- **Research**: Exploring complex concepts with heavy thinking mode
+- **Testing**: Validating visual reasoning capabilities
+- **Education**: Generating educational content and animations
+- **Development**: Prototyping new Manim scenes
+
+### Quick Start
+
+```bash
+# 1. Setup the sandbox
+cd e2b_sandbox
+bash setup.sh
+
+# 2. Configure your API key
+cp .env.template ../.env
+# Edit ../.env and add your MOONSHOT_API_KEY
+
+# 3. Run an interactive exploration
+python interactive_explorer.py
+
+# 4. Run visual reasoning tests
+python visual_reasoning_tests.py
+
+# 5. Try the demo
+python demo.py --demo all
+```
+
+### Features
+
+#### 🔍 Interactive Explorer
+Explore concepts with customizable depth and thinking modes:
+
+```python
+from e2b_sandbox import quick_explore
+
+result = await quick_explore(
+    concept="quantum entanglement",
+    thinking_mode="heavy",
+    depth=3,
+    enrichment=True
+)
+```
+
+#### 🧪 Visual Reasoning Tests
+Automated test suite for validating visual reasoning capabilities:
+
+- Geometric transformations
+- Wave phenomena
+- Calculus concepts
+- Linear algebra
+- Complex analysis
+- Topology
+
+```python
+from e2b_sandbox import run_visual_tests
+
+results = await run_visual_tests()
+print(f"Pass rate: {results['pass_rate']}%")
+```
+
+#### 🎬 Manim Renderer
+Render Manim scenes with quality presets:
+
+```python
+from e2b_sandbox import ManimRenderer, setup_sandbox_environment
+
+config = setup_sandbox_environment()
+renderer = ManimRenderer(config)
+
+renderer.render_scene(
+    scene_file=Path("manim_scenes/harmonic_theorem.py"),
+    scene_class="HarmonicDivisionTheorem",
+    quality="h"  # High quality (1080p)
+)
+```
+
+#### 🛠️ Sandbox Tools
+Utilities for managing explorations:
+
+```python
+from e2b_sandbox import SandboxTools
+
+tools = SandboxTools()
+tools.create_exploration_report()
+tools.package_exploration("quantum mechanics")
+tools.get_storage_usage()
+```
+
+### Sandbox Configuration
+
+The sandbox supports multiple modes and configurations:
+
+```bash
+# Environment variables (.env file)
+MOONSHOT_API_KEY=sk-your-key-here
+KIMI_ENABLE_THINKING=heavy  # heavy, medium, light
+KIMI_USE_TOOLS=true
+SANDBOX_MODE=exploration    # exploration, rendering, interactive, batch
+MAX_DEPTH=3                 # Prerequisite tree depth
+MANIM_QUALITY=l            # l, m, h, k (480p, 720p, 1080p, 4k)
+```
+
+### Use Cases
+
+#### 1. Educational Content Generation
+```python
+# Generate comprehensive educational content
+result = await explorer.explore_concept(
+    "calculus fundamental theorem",
+    depth=3,
+    enrichment=True
+)
+# Use the narrative and visual specs for educational materials
+```
+
+#### 2. Research Visualization
+```python
+# Explore complex research topics
+result = await explorer.explore_concept(
+    "quantum chromodynamics",
+    depth=4,
+    enrichment=True
+)
+# Get visual specifications for research diagrams
+```
+
+#### 3. Batch Processing
+```python
+# Process multiple concepts
+concepts = ["group theory", "ring theory", "field theory"]
+results = await explorer.batch_explore(concepts, enrichment=True)
+```
+
+### Docker/E2B Deployment
+
+```bash
+# Build the E2B container
+docker build -t kimik2-sandbox -f e2b_sandbox/e2b.Dockerfile .
+
+# Run the container
+docker run -it \
+  -e MOONSHOT_API_KEY=sk-your-key \
+  -v $(pwd)/output:/home/user/kimik2/output \
+  -v $(pwd)/media:/home/user/kimik2/media \
+  kimik2-sandbox
+```
+
+For complete documentation, see [`e2b_sandbox/README.md`](e2b_sandbox/README.md).
+
+### Interesting Discoveries
+
+The sandbox is designed to be a playground for discovering how KimiK2's "thinking" mode handles:
+
+- **Complex Mathematical Concepts**: Testing extended reasoning on advanced topics
+- **Visual Problem Solving**: How well can KimiK2 translate abstract concepts to visual specifications?
+- **Multi-stage Reasoning**: Validating the complete prerequisite → math → visual → narrative pipeline
+- **Chinese Language Processing**: Exploring the native Chinese agent pipeline capabilities
+
+Try exploring concepts like:
+- "fourier transform" - Wave decomposition and harmonics
+- "riemann hypothesis" - Number theory and complex analysis
+- "quantum entanglement" - Quantum mechanics visualization
+- "general relativity" - Spacetime curvature
+- "neural network backpropagation" - ML algorithm visualization
+
 ## License
 
 MIT License
